@@ -1,0 +1,24 @@
+.container{
+    text-align: center;
+}
+.logo img{
+    width: 350px;
+}
+.form_wrapper{
+    border: 1px solid;
+    width:  400px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+form input{
+    width: 350px;
+    margin: 0;
+    height: 40px;
+    margin-top: 12px;
+}
+.button{
+    width: 357px;
+}
