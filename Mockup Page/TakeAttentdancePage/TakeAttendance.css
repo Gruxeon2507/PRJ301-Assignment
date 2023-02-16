@@ -1,0 +1,16 @@
+table th td{
+    width: 200px;
+    text-align: center;
+}
+table tr td{
+    width: 200px;
+    border: 1px solid;
+}  
+th td{
+    background-color: aquamarine;
+}
+img{
+    border-radius: 250px;
+    width: 80px;
+    margin-top: 10px;
+}
