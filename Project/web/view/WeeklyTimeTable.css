@@ -1,0 +1,12 @@
+.schedule table tr td{
+    width: 150px;
+    text-align: center;
+    height: 130px;
+}
+.schedule table th td{
+    height: 80px;
+}
+.isHavingClass{
+    color: white;
+    background-color: orange;
+}
