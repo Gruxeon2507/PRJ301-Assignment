@@ -2,11 +2,35 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>WeeklyTimeTableDisplayServlet</servlet-name>
-        <servlet-class>controller.weeklyTimeTable.SearchController</servlet-class>
+        <servlet-class>controller.instructor.SearchController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AttendStatusServlet</servlet-name>
+        <servlet-class>controller.instructor.StatusController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InstuctorListClassServlet</servlet-name>
+        <servlet-class>controller.instructor.ClassListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TakeAttendanceServlet</servlet-name>
+        <servlet-class>controller.instructor.TakeAttendanceController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>WeeklyTimeTableDisplayServlet</servlet-name>
         <url-pattern>/weeklyTimeTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendStatusServlet</servlet-name>
+        <url-pattern>/status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InstuctorListClassServlet</servlet-name>
+        <url-pattern>/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TakeAttendanceServlet</servlet-name>
+        <url-pattern>/takeAttendance</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
