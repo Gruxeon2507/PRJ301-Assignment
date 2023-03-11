@@ -101,7 +101,7 @@ public class GroupDBContext extends DBContext<Group> {
         try {
             String sql = "Select g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName\n"
                     + "From [Group] g inner join Instructor i on g.instructorId=i.instructorId\n"
-                    + "inner join Course c on g.courseId=c.courseId";
+                    + "inner join Course c on g.courseId=c.courseId where i.instructorId= ? ";
             stm = connection.prepareStatement(sql);
             stm.setString(1, instuctorId);
             rs = stm.executeQuery();

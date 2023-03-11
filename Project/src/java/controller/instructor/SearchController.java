@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.weeklyTimeTable;
+package controller.instructor;
 
 import dal.DBContext;
 import dal.SessionDBContext;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import model.Session;
 import java.util.Calendar;
-import process.MondayAndSundayOfWeek;
+import util.MondayAndSundayOfWeek;
 import java.sql.Date;
 import model.Day;
 import model.TimeSlot;
@@ -57,7 +57,7 @@ public class SearchController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/WeeklyTimeTable.jsp").forward(request, response);
+        request.getRequestDispatcher("view/instructor/WeeklyTimeTable.jsp").forward(request, response);
 
     }
 
@@ -92,7 +92,7 @@ public class SearchController extends HttpServlet {
         request.setAttribute("timeslots", timeslots);
         request.setAttribute("sessions", sessions);
         request.setAttribute("days", days);
-        request.getRequestDispatcher("view/WeeklyTimeTable.jsp").forward(request,response);
+        request.getRequestDispatcher("view/instructor/WeeklyTimeTable.jsp").forward(request,response);
     }
 
     /**

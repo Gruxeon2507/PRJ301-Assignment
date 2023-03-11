@@ -29,7 +29,9 @@ public class AttendDBContext extends DBContext<Attend> {
     public void insert(Attend model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    public void insert(ArrayList<Attend> model) {
+        
+    }
     @Override
     public void update(Attend model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -49,7 +51,40 @@ public class AttendDBContext extends DBContext<Attend> {
     public ArrayList<Attend> all() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    public void TakeAttendance(ArrayList<Attend> model){
+        PreparedStatement stm = null;
+        try {
+            String sql = "Insert into AttendTest(studentId,sessionId,[status],recordTime,comment) values (?,?,?,?,?)";
+            int s = model.size();
+            for(int i=1;i<s;i++){
+                sql+=",(?,?,?,?,?)";
+            }
+            sql+=";";
+            stm = connection.prepareStatement(sql);
+            int j=1;
+            for(Attend a:model){
+                stm.setString(j++,a.getStudent().getId());
+                stm.setInt(j++,a.getSession().getId());
+                stm.setBoolean(j++, a.isStatus());
+                stm.setTimestamp(j++, a.getRecordTime());
+                stm.setString(j++,a.getComment());
+            }
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
     public ArrayList<Attend> status(String groupName,String courseId,String instuctorId) {
         ArrayList<Attend> attends = new ArrayList<>();
         PreparedStatement stm = null;
