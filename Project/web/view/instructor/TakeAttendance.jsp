@@ -11,6 +11,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style>
+            img{
+                width: 100px;
+                border-radius: 10px;
+            }
+        </style>
     </head>
     <body>
         <form method="POST" action="takeAttendance">
@@ -26,7 +32,7 @@
                     <tr>
                         <td>${s.id}
                         <input type="text" hidden name="name${i.index}" value="${s.id}"></td>
-                        <td>${s.image}</td>
+                        <td><img src="${s.image}" class="image" onerror="this.src='https://media.istockphoto.com/id/1214428300/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=vftMdLhldDx9houN4V-g3C9k0xl6YeBcoB_Rk6Trce0=';"></td>
                         <td>${s.name}</td>
                         <td>
                             <input type="radio" name="status${i.index}" value="true" checked>presented

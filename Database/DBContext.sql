@@ -29,6 +29,28 @@ inner join TimeSlot t on s.slotId=t.slotId
 inner join Room r on s.roomId=r.roomId
 inner join [Group] g on s.groupId=g.groupId
 inner join Course c on g.courseId=c.courseId
+inner join Participate p on p.groupId=g.groupId
+inner join Student su on p.studentId=su.studentId
+where su.studentId='HE170996' and s.[date] between '2023-03-06' and '2023-03-12'
+
+Select distinct s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status]
+From [Session] s inner join Instructor i on s.lecturerId=i.instructorId
+inner join TimeSlot t on s.slotId=t.slotId
+inner join Room r on s.roomId=r.roomId
+inner join [Group] g on s.groupId=g.groupId
+inner join Course c on g.courseId=c.courseId
+inner join Participate p on p.groupId=g.groupId
+left join Attend a on a.sessionId=s.sessionId
+where i.instructorId='sonnt5' and s.[date] between '2023-03-06' and '2023-03-12'
+
+Select s.sessionId,s.sessionName,s.[date] from [Session] s
+
+Select s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId
+From [Session] s inner join Instructor i on s.lecturerId=i.instructorId
+inner join TimeSlot t on s.slotId=t.slotId
+inner join Room r on s.roomId=r.roomId
+inner join [Group] g on s.groupId=g.groupId
+inner join Course c on g.courseId=c.courseId
 where i.instructorId='sonnt5' and c.courseId='PRJ301'
 
 --Participate
@@ -48,7 +70,10 @@ inner join TimeSlot t on se.slotId=t.slotId
 inner join Room r on se.roomId=r.roomId
 inner join [Group] g on se.groupId=g.groupId
 inner join Course c on g.courseId=c.courseId
+inner join Student su on a.studentId=su.studentId
 where groupName='SE1723' and c.courseId ='PRJ301' and se.lecturerId='sonnt5'
+
+--Upadte Attendane
 
 Select * from Attend
 Insert into Attend(studentId,sessionId,[status],recordTime,comment) values (?,?,?,?,?)
@@ -63,6 +88,6 @@ Select * from [group]
 Insert into AttendTest(studentId,sessionId,[status],recordTime,comment) values (?,?,?,?,?)
 
 --User
-Select instructorId,instructorName,password From Instructor where instructorId = 'sonnt5' and password = '1'
+Select instructorId,instructorName From Instructor where instructorId = 'sonnt5' and [password] = '1'
 
 Select studentid,studentName,password From Student where instructorId = ? and password = ?

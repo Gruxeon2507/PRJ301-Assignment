@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import model.Group;
+import model.User;
 
 /**
  *
@@ -25,11 +26,12 @@ public class ClassListController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String instuctorId = "sonnt5"; 
+        User user = (User)req.getSession().getAttribute("user");
+        String instuctorId = user.getUsername(); 
         GroupDBContext GroupDB = new  GroupDBContext();
         ArrayList<Group> groups = GroupDB.getInstuctorGroup(instuctorId);
         req.setAttribute("groups", groups);
-        req.getRequestDispatcher("view/instructor/ClassList.jsp").forward(req, resp);
+        req.getRequestDispatcher("../view/instructor/ClassList.jsp").forward(req, resp);
     }
     
 }

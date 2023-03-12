@@ -67,7 +67,7 @@ public class WeeklyTimeTableController extends HttpServlet {
 //        response.getWriter().println(monday.toString() + sunday.toString());
         ArrayList<Day> days = MondayAndSundayOfWeek.getWholeWeekFromDate(monday);
         ArrayList<TimeSlot> timeslots = db2.all();
-        ArrayList<Session> sessions = db.getSession(instructorId,monday,sunday);
+        ArrayList<Session> sessions = db.getStatusSession(instructorId,monday,sunday);
 //        response.getWriter().println(days.size()+" 2 3 4 5 ");
 //        for(Day d: days){
 //            response.getWriter().println(d.getDate()+" "+d.getDateCount());
@@ -94,19 +94,13 @@ public class WeeklyTimeTableController extends HttpServlet {
         throws ServletException, IOException {
         String instructorId = request.getParameter("instuctorId");
         String raw_date = request.getParameter("Date");
-//        response.getWriter().print(instructorId+raw_date);
         SessionDBContext db = new SessionDBContext();
         TimeSlotDBContext db2 = new TimeSlotDBContext();
         Date monday = MondayAndSundayOfWeek.getMonday(raw_date);
         Date sunday = MondayAndSundayOfWeek.getSunday(raw_date);
-//        response.getWriter().println(monday.toString() + sunday.toString());
         ArrayList<Day> days = MondayAndSundayOfWeek.getWholeWeekFromDate(monday);
         ArrayList<TimeSlot> timeslots = db2.all();
-        ArrayList<Session> sessions = db.getSession(instructorId,monday,sunday);
-//        response.getWriter().println(days.size()+" 2 3 4 5 ");
-//        for(Day d: days){
-//            response.getWriter().println(d.getDate()+" "+d.getDateCount());
-//        }
+        ArrayList<Session> sessions = db.getStatusSession(instructorId,monday,sunday);
         request.setAttribute("instructorId", instructorId);
         request.setAttribute("date", raw_date);
         request.setAttribute("timeslots", timeslots);

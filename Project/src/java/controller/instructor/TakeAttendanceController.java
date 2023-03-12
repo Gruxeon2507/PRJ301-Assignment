@@ -19,6 +19,7 @@ import model.Attend;
 import model.Session;
 import model.Student;
 import java.util.Date;
+import model.User;
 /**
  *
  * @author Nguyen Hoang Minh
@@ -65,21 +66,23 @@ public class TakeAttendanceController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String groupName = "SE1723";
-        String courseId = "PRJ301";
-        String instructorId = "sonnt5";
+        User user= (User) req.getSession().getAttribute("user");
+        String groupName = req.getParameter("groupName");
+        String courseId = req.getParameter("courseId");
+        
+        String instructorId = user.getUsername();
         String sessionId = (String) req.getParameter("sessionId");
         AttendDBContext attendDb = new AttendDBContext();
         SessionDBContext sessionDb = new SessionDBContext();
         ParticipateDBContext participateDb = new ParticipateDBContext();
         ArrayList<Student> students = participateDb.getClass(groupName, instructorId, courseId);
-        ArrayList<Session> sessions = sessionDb.get(courseId, instructorId);
+        ArrayList<Session> sessions = sessionDb.getInstructor(courseId, instructorId);
         req.setAttribute("sessions", sessions);
         req.setAttribute("coursename", courseId);
         req.setAttribute("groupname", groupName);
         req.setAttribute("students", students);
         req.setAttribute("sessions", sessions);
-        req.getRequestDispatcher("/view/instructor/TakeAttendance.jsp").forward(req, resp);
+        req.getRequestDispatcher("../view/instructor/TakeAttendance.jsp").forward(req, resp);
     }
 
 }

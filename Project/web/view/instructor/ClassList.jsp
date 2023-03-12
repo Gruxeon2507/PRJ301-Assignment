@@ -15,7 +15,7 @@
     <body>
         <ul>
             <c:forEach items="${requestScope.groups}" var="g">
-                <li><a href="/Project/status?groupName=${g.name}&courseId=${g.course.id}">${g.name}-${g.course.id}</a></li>
+                <li><a href="/Project/instructor/status?groupName=${g.name}&courseId=${g.course.id}">${g.name}-${g.course.id}</a></li>
             </c:forEach>
         </ul>
     </body>

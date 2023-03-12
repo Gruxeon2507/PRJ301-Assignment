@@ -38,13 +38,13 @@ public class StatusController extends HttpServlet{
         ParticipateDBContext participateDb = new ParticipateDBContext();
         ArrayList<Student> students = participateDb.getClass(groupName, instructorId, courseId);
         ArrayList<Attend> status = attendDb.status(groupName, courseId, instructorId);
-        ArrayList<Session> sessions = sessionDb.get(courseId, instructorId);
+        ArrayList<Session> sessions = sessionDb.getInstructor(courseId, instructorId);
         req.setAttribute("status", status);
         req.setAttribute("sessions", sessions);
         req.setAttribute("coursename", courseId);
         req.setAttribute("groupname",groupName);
        req.setAttribute("students", students);
-        req.getRequestDispatcher("/view/instructor/AttendanceStatus.jsp").forward(req, resp);
+        req.getRequestDispatcher("../view/instructor/AttendanceStatus.jsp").forward(req, resp);
     }
     
 }

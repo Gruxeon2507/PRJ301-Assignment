@@ -16,7 +16,16 @@ public class Session {
     private Date date;
     private TimeSlot slot;
     private Room room;
+    private boolean status;
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
     public int getId() {
         return id;
     }
