@@ -29,9 +29,11 @@ public class AttendDBContext extends DBContext<Attend> {
     public void insert(Attend model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
     public void insert(ArrayList<Attend> model) {
-        
+
     }
+
     @Override
     public void update(Attend model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -51,23 +53,24 @@ public class AttendDBContext extends DBContext<Attend> {
     public ArrayList<Attend> all() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    public void TakeAttendance(ArrayList<Attend> model){
+
+    public void TakeAttendance(ArrayList<Attend> model) {
         PreparedStatement stm = null;
         try {
-            String sql = "Insert into AttendTest(studentId,sessionId,[status],recordTime,comment) values (?,?,?,?,?)";
+            String sql = "Insert into Attend(studentId,sessionId,[status],recordTime,comment) values (?,?,?,?,?)";
             int s = model.size();
-            for(int i=1;i<s;i++){
-                sql+=",(?,?,?,?,?)";
+            for (int i = 1; i < s; i++) {
+                sql += ",(?,?,?,?,?)";
             }
-            sql+=";";
+            sql += ";";
             stm = connection.prepareStatement(sql);
-            int j=1;
-            for(Attend a:model){
-                stm.setString(j++,a.getStudent().getId());
-                stm.setInt(j++,a.getSession().getId());
+            int j = 1;
+            for (Attend a : model) {
+                stm.setString(j++, a.getStudent().getId());
+                stm.setInt(j++, a.getSession().getId());
                 stm.setBoolean(j++, a.isStatus());
                 stm.setTimestamp(j++, a.getRecordTime());
-                stm.setString(j++,a.getComment());
+                stm.setString(j++, a.getComment());
             }
             stm.executeUpdate();
         } catch (SQLException ex) {
@@ -85,7 +88,52 @@ public class AttendDBContext extends DBContext<Attend> {
             }
         }
     }
-    public ArrayList<Attend> status(String groupName,String courseId,String instuctorId) {
+
+    public void updateAttendance(ArrayList<Attend> model) {
+        PreparedStatement stm = null;
+        try {
+            String temp= "Update Attend set [status] = ?,comment = ?, recordTime = ? where studentId = ? and sessionId = ?";
+            String sql = temp;
+            int s=model.size();
+            for (int i = 1; i < s; i++) {
+                sql = sql+" "+temp;
+            }
+// 
+//            for(Attend a:model){
+//                sql+=temp;
+//            }
+            stm = connection.prepareStatement(sql);
+            int j = 1;
+//            stm.setBoolean(j++, model.get(0).isStatus());
+//                stm.setString(j++,model.get(0).getComment());
+//                stm.setTimestamp(j++, model.get(0).getRecordTime());
+//                stm.setString(j++, model.get(0).getStudent().getId());
+//                stm.setInt(j++, model.get(0).getSession().getId());
+            for (Attend a : model) {
+                stm.setBoolean(j++, a.isStatus());
+                stm.setString(j++,a.getComment());
+                stm.setTimestamp(j++, a.getRecordTime());
+                stm.setString(j++, a.getStudent().getId());
+                stm.setInt(j++, a.getSession().getId());
+            }
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public ArrayList<Attend> status(String groupName, String courseId, String instuctorId) {
         ArrayList<Attend> attends = new ArrayList<>();
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -135,19 +183,19 @@ public class AttendDBContext extends DBContext<Attend> {
                 s.setInstructor(i);
                 s.setSlot(t);
                 s.setRoom(r);
-                
-                Student st = new Student();     
+
+                Student st = new Student();
                 st.setId(rs.getString("studentId"));
                 st.setName(rs.getString("studentName"));
                 st.setImage(rs.getString("studentImage"));
-                
+
                 Attend a = new Attend();
                 a.setStatus(rs.getBoolean("status"));
                 a.setRecordTime(rs.getTimestamp("recordTime"));
                 a.setComment(rs.getString("comment"));
                 a.setStudent(st);
                 a.setSession(s);
-                
+
                 attends.add(a);
             }
         } catch (SQLException ex) {
@@ -172,7 +220,8 @@ public class AttendDBContext extends DBContext<Attend> {
         }
         return attends;
     }
-    public ArrayList<Attend> getAttendedSession(String groupName,String courseId,String instuctorId,int sessionId) {
+
+    public ArrayList<Attend> getAttendedSession(String groupName, String courseId, String instuctorId, int sessionId) {
         ArrayList<Attend> attends = new ArrayList<>();
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -184,11 +233,12 @@ public class AttendDBContext extends DBContext<Attend> {
                     + "inner join Room r on se.roomId=r.roomId\n"
                     + "inner join [Group] g on se.groupId=g.groupId\n"
                     + "inner join Course c on g.courseId=c.courseId\n"
-                    + "where groupName= ? and c.courseId =?  and se.lecturerId=?";
+                    + "where groupName= ? and c.courseId =?  and se.lecturerId=? and a.sessionId=?";
             stm = connection.prepareStatement(sql);
             stm.setString(1, groupName);
             stm.setString(2, courseId);
             stm.setString(3, instuctorId);
+            stm.setInt(4, sessionId);
             rs = stm.executeQuery();
             while (rs.next()) {
                 Session s = new Session();
@@ -222,19 +272,19 @@ public class AttendDBContext extends DBContext<Attend> {
                 s.setInstructor(i);
                 s.setSlot(t);
                 s.setRoom(r);
-                
-                Student st = new Student();     
+
+                Student st = new Student();
                 st.setId(rs.getString("studentId"));
                 st.setName(rs.getString("studentName"));
                 st.setImage(rs.getString("studentImage"));
-                
+
                 Attend a = new Attend();
                 a.setStatus(rs.getBoolean("status"));
                 a.setRecordTime(rs.getTimestamp("recordTime"));
                 a.setComment(rs.getString("comment"));
                 a.setStudent(st);
                 a.setSession(s);
-                
+
                 attends.add(a);
             }
         } catch (SQLException ex) {

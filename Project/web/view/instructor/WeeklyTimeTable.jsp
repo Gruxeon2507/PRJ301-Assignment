@@ -77,11 +77,12 @@
                                                     <p class="location">at ${s.room.id}</p>
                                                     <p class="attend_status">
                                                         <c:if test="${s.status}">
-                                                            attended
+                                                            attended <br>
+                                                            <a href="updateAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}">update attendance</a>
                                                         </c:if>
                                                         <c:if test="${!s.status}">
                                                             not-yet<br>
-                                                            <a href="takeAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}">take attendance</a>
+                                                            <a href="takeAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}">take attendance</a>
                                                         </c:if>
                                                     </p>
                                                 </div>

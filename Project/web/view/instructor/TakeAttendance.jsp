@@ -45,7 +45,7 @@
                 </c:forEach>
                     
             </table>
-            <input type="text" hidden value="${requestScope.sessionId}" name ="sessionid">
+            <input type="text" hidden value="${requestScope.sessionid}" name ="sessionid">
             <input type="submit" value="save">
         </form>
     </body>

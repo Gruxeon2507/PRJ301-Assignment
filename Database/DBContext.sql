@@ -71,10 +71,10 @@ inner join Room r on se.roomId=r.roomId
 inner join [Group] g on se.groupId=g.groupId
 inner join Course c on g.courseId=c.courseId
 inner join Student su on a.studentId=su.studentId
-where groupName='SE1723' and c.courseId ='PRJ301' and se.lecturerId='sonnt5'
+where groupName='SE1723' and c.courseId ='PRJ301' and se.lecturerId='sonnt5' and a.sessionId ='1';
 
 --Upadte Attendane
-
+Update Attend set [status] = 0,comment = 'hihi', recordTime = '2023-01-07 15:40:00.000' where studentId = 'HE130464' and sessionId = '109'
 Select * from Attend
 Insert into Attend(studentId,sessionId,[status],recordTime,comment) values (?,?,?,?,?)
 --Group

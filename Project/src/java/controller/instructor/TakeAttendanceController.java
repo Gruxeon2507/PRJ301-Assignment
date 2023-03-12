@@ -30,8 +30,7 @@ public class TakeAttendanceController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ArrayList<Attend> attends = new ArrayList<>();
         int i = 0;
-//        String SessionId = req.getParameter("sessionid");
-        String SessionId="1";
+        String SessionId=req.getParameter("sessionid");
         String StudentId;
         do {
             Attend a = new Attend();
@@ -56,12 +55,10 @@ public class TakeAttendanceController extends HttpServlet {
             i++;
         } while (StudentId!=null);
         attends.remove(i-1);
-//        for(Attend a:attends){
-//                resp.getWriter().println(a.getStudent().getId()+" "+a.isStatus()+" "+i);
-//            }
         AttendDBContext AttendDb = new AttendDBContext();
         AttendDb.TakeAttendance(attends);
-        resp.sendRedirect("weeklyTimeTable");
+        java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+        resp.sendRedirect("../instructor/weeklyTimeTable?Date="+currentDate+"&instuctorId="+((User)req.getSession().getAttribute("user")).getUsername());
     }
 
     @Override
@@ -78,6 +75,7 @@ public class TakeAttendanceController extends HttpServlet {
         ArrayList<Student> students = participateDb.getClass(groupName, instructorId, courseId);
         ArrayList<Session> sessions = sessionDb.getInstructor(courseId, instructorId);
         req.setAttribute("sessions", sessions);
+        req.setAttribute("sessionid", sessionId);
         req.setAttribute("coursename", courseId);
         req.setAttribute("groupname", groupName);
         req.setAttribute("students", students);
