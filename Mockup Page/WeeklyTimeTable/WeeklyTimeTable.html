@@ -12,7 +12,7 @@
 <body>
     <div class="side_nav">
         <div class="logo">
-        
+            <img src="https://hcmuni.fpt.edu.vn/Data/Sites/1/skins/default/img/og-image.png" alt="">
         </div>
         <ul class="nav-links">
             <li>
@@ -46,30 +46,32 @@
     </div>
     <div class="main_content">
         <div class="header">
-            
+            <div class="user-menu">
+                <div class="dropdown">
+                    <button class="dropbtn">Username</button>
+                    <div class="dropdown-content">
+                      <a href="#">Setting</a>
+                      <a href="#">Logout</a>
+                    </div>
+                  </div>
+            </div>
         </div>
-        <div class="campus_list">
-            <label for="campus">Campus</label>
-            <select name="campus" id="campus">
-                <option value="HL">FU-HL</option>
-                <option value="HCM">FU-HCM</option>
-            </select>
-        </div>
-        <div class="lecturer">
-            <form action="">
-                <label for="lecturer">Lecturer</label>
-                <input type="text" id="lecturer" value="Sonnt5">
-                <input type="submit" value="view">
-            </form>
-
-            <label for="week">Choose a week:</label>
-
-            <input type="week" name="week" id="camp-week" value="">
-
-        </div>
+        
         <div class="schedule">
             <table border="1px">
-                <th>
+                <thead>
+                    <td><div class="lecturer">
+                        <form action="">
+                            <label for="lecturer">Lecturer</label>
+                            <input type="text" id="lecturer" value="Sonnt5">
+                            <input type="submit" value="view">
+                        </form>
+            
+                        <label for="week">Choose a week:</label>
+            
+                        <input type="week" name="week" id="camp-week" value="">
+            
+                    </div></td>
                 <td>Mon
                     <br>20/02/2023
                 </td>
@@ -79,7 +81,7 @@
                 <td>Fri<br>24/02/2023</td>
                 <td>Sat<br>25/02/2023</td>
                 <td>Sun<br>26/02/2023</td>
-                </th>
+                </thead>
                 <tr>
                     <td>slot 1 <br> (7h30-9h50)</td>
                     <td></td>
@@ -152,6 +154,20 @@
                     </td>
 
                     <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>slot 5</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="isHavingClass">
+                        <p class="className">SWE201c</p>
+                        <p class="location">at BE-304</p>
+                        <p class="attend_status">(attended)</p>
+                    </td>
                     <td></td>
                 </tr>
                 <tr>

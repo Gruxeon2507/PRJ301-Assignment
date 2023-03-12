@@ -70,7 +70,14 @@
                                         <p class="subject">${s.group.course.id}</p>
                                         <p class="className">${s.group.name}</p>
                                         <p class="location">at ${s.room.id}</p>
-                                        <p class="attend_status">(attended)</p>
+                                        <p class="attend_status">
+                                            <c:if test="${s.status}">
+                                                            attended 
+                                                        </c:if>
+                                                        <c:if test="${!s.status}">
+                                                            not-yet
+                                                        </c:if>
+                                        </p>
                                     </div>
                                 </c:if>
                             </c:if>

@@ -74,10 +74,10 @@ inner join Student su on a.studentId=su.studentId
 where groupName='SE1723' and c.courseId ='PRJ301' and se.lecturerId='sonnt5' and a.sessionId ='1';
 
 --Upadte Attendane
-Update Attend set [status] = 0,comment = 'hihi', recordTime = '2023-01-07 15:40:00.000' where studentId = 'HE130464' and sessionId = '109'
-Select * from Attend
+Update Attend set [status] = 1 ,comment = 'hihi', recordTime = '2023-01-07 15:40:00.000' where studentId = 'HE130464' and sessionId = '109'Update Attend set [status] = 1 ,comment = 'hihi', recordTime = '2023-01-07 15:40:00.000' where studentId = 'HE130464' and sessionId = '110'
+Select * from Attend  where recordTime='2023-03-12 18:45:48.957'
 Insert into Attend(studentId,sessionId,[status],recordTime,comment) values (?,?,?,?,?)
---Group
+--Group 
 Select g.instructorId,g. from [Group] g
 inner join Instructor i on g.instructorId=i.instructorId
 

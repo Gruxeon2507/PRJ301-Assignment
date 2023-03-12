@@ -20,14 +20,16 @@ import model.Session;
 import model.Student;
 import java.util.Date;
 import model.User;
+import controller.authentication.BaseRequiredAuthenticatedControllerInstructor;
+import model.User;
 /**
  *
  * @author Nguyen Hoang Minh
  */
-public class TakeAttendanceController extends HttpServlet {
+public class TakeAttendanceController extends BaseRequiredAuthenticatedControllerInstructor {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {
         ArrayList<Attend> attends = new ArrayList<>();
         int i = 0;
         String SessionId=req.getParameter("sessionid");
@@ -62,8 +64,7 @@ public class TakeAttendanceController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user= (User) req.getSession().getAttribute("user");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {
         String groupName = req.getParameter("groupName");
         String courseId = req.getParameter("courseId");
         

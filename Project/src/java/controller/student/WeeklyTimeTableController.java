@@ -18,18 +18,16 @@ import model.Session;
 import model.TimeSlot;
 import model.User;
 import util.MondayAndSundayOfWeek;
-
-/**
+import controller.authentication.BaseRequiredAuthenticatedControllerStudent;
+        /**
  *
  * @author Nguyen Hoang Minh
  */
-public class WeeklyTimeTableController extends HttpServlet {
+public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControllerStudent {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response,User user)
             throws ServletException, IOException {
-        
-        User user = (User)request.getSession().getAttribute("user");
         String studentId = user.getUsername();
         String raw_date = request.getParameter("Date");
         SessionDBContext db = new SessionDBContext();
@@ -48,7 +46,7 @@ public class WeeklyTimeTableController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response,User user) throws ServletException, IOException {
         String studentId = request.getParameter("studentId");
         String raw_date = request.getParameter("Date");
         

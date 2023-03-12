@@ -16,20 +16,21 @@ import java.util.ArrayList;
 import model.Attend;
 import model.Session;
 import model.Student;
-
+import controller.authentication.BaseRequiredAuthenticatedControllerInstructor;
+import model.User;
 /**
  *
  * @author Nguyen Hoang Minh
  */
-public class StatusController extends HttpServlet{
+public class StatusController extends BaseRequiredAuthenticatedControllerInstructor{
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {
         
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {
         String groupName =  (String)req.getParameter("groupName");
         String courseId = (String)req.getParameter("courseId");
         String instructorId = "sonnt5";

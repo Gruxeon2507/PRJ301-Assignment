@@ -21,12 +21,13 @@ import util.MondayAndSundayOfWeek;
 import java.sql.Date;
 import model.Day;
 import model.TimeSlot;
-
+import controller.authentication.BaseRequiredAuthenticatedControllerInstructor;
+import model.User;
 /**
  *
  * @author Nguyen Hoang Minh
  */
-public class WeeklyTimeTableController extends HttpServlet {
+public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControllerInstructor {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,7 +56,7 @@ public class WeeklyTimeTableController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response,User user)
             throws ServletException, IOException {
         String instructorId = request.getParameter("instuctorId");
         String raw_date = request.getParameter("Date");
@@ -90,7 +91,7 @@ public class WeeklyTimeTableController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response,User user)
         throws ServletException, IOException {
         String instructorId = request.getParameter("instuctorId");
         String raw_date = request.getParameter("Date");

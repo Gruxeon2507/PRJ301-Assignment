@@ -13,20 +13,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import model.Group;
 import model.User;
-
+import controller.authentication.BaseRequiredAuthenticatedControllerInstructor;
 /**
  *
  * @author Nguyen Hoang Minh
  */
-public class ClassListController extends HttpServlet{
+public class ClassListController extends BaseRequiredAuthenticatedControllerInstructor{
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User)req.getSession().getAttribute("user");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {
         String instuctorId = user.getUsername(); 
         GroupDBContext GroupDB = new  GroupDBContext();
         ArrayList<Group> groups = GroupDB.getInstuctorGroup(instuctorId);

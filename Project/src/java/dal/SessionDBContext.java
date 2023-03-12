@@ -272,7 +272,7 @@ public class SessionDBContext extends DBContext<Session> {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            String sql = "Select s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId\n"
+            String sql = "Select distinct s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status]\n"
                     + "From [Session] s inner join Instructor i on s.lecturerId=i.instructorId\n"
                     + "inner join TimeSlot t on s.slotId=t.slotId\n"
                     + "inner join Room r on s.roomId=r.roomId\n"
@@ -280,6 +280,7 @@ public class SessionDBContext extends DBContext<Session> {
                     + "inner join Course c on g.courseId=c.courseId\n"
                     + "inner join Participate p on p.groupId=g.groupId\n"
                     + "inner join Student su on p.studentId=su.studentId\n"
+                    + "left join Attend a on a.sessionId=s.sessionId\n"
                     + "where su.studentId=? and s.[date] between ? and ?";
             stm = connection.prepareStatement(sql);
             stm.setString(1, studentId);
@@ -314,6 +315,7 @@ public class SessionDBContext extends DBContext<Session> {
                 Room r = new Room();
                 r.setId(rs.getString("roomId"));
 
+                s.setStatus(rs.getBoolean("status"));
                 s.setGroup(g);
                 s.setInstructor(i);
                 s.setSlot(t);
