@@ -1,4 +1,10 @@
+<%-- 
+    Document   : login
+    Created on : Mar 12, 2023, 12:15:24 AM
+    Author     : Nguyen Hoang Minh
+--%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>

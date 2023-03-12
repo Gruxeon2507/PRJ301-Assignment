@@ -1,5 +1,5 @@
-﻿CREATE DATABASE PRJ301_Assignment_DB
-USE PRJ301_Assignment_DB
+﻿--CREATE DATABASE PRJ301_Assignment_DB
+--USE PRJ301_Assignment_DB
 
 CREATE TABLE Course
 (
@@ -13,7 +13,9 @@ CREATE TABLE Course
 	instructorId varchar(20) NOT NULL,
 	instructorName nvarchar(100),
 	instructorImage varchar(max),
+	[password] varchar(100) default '1',
 	CONSTRAINT PK_Instructor PRIMARY KEY (instructorId)
+	
 
 )
 
@@ -22,7 +24,9 @@ CREATE TABLE Student
 	studentId varchar(8) NOT NULL,
 	studentName nvarchar(100),
 	studentImage varchar(max),
+	[password] varchar(100) default '1',
 	CONSTRAINT PK_Student PRIMARY KEY (studentId)
+	
  )
 
  CREATE TABLE TimeSlot

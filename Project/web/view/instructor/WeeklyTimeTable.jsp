@@ -29,7 +29,7 @@
         </style>
     </head>
     <body>
-        <form action="weeklyTimeTable" method="POST">
+        <form action="instuctor/weeklyTimeTable" method="POST">
             Nhập tên giảng viên: <input type="text" name="instuctorId" value="${requestScope.instructorId}"><br>
             Chọn ngày: <input type="date" name="Date" id="Date" value="${requestScope.date}"><br>
             <input type="submit" value="search">

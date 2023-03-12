@@ -14,7 +14,7 @@
 
     </head>
     <body>
-        <form action="../weeklyTimeTable" method="POST">
+<!--        <form action="../weeklyTimeTable" method="POST">
             Nhập tên giảng viên: <input type="text" name="instuctorId" required><br>
             Chọn ngày: <input type="date" name="Date" id="Date" required><br>
             <input type="submit" value="search">
@@ -36,6 +36,7 @@
         </table>
         <script>
             document.getElementById("Date").defaultValue = new Date().toDateInputValue();
-        </script>
+        </script>-->
+                        ${requestScope.user.username}               
     </body>
 </html>

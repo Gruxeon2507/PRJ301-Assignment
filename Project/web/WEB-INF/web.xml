@@ -2,7 +2,7 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>WeeklyTimeTableDisplayServlet</servlet-name>
-        <servlet-class>controller.instructor.SearchController</servlet-class>
+        <servlet-class>controller.instructor.WeeklyTimeTableController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AttendStatusServlet</servlet-name>
@@ -16,9 +16,13 @@
         <servlet-name>TakeAttendanceServlet</servlet-name>
         <servlet-class>controller.instructor.TakeAttendanceController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>controller.authentication.LoginController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WeeklyTimeTableDisplayServlet</servlet-name>
-        <url-pattern>/weeklyTimeTable</url-pattern>
+        <url-pattern>/instructor/weeklyTimeTable</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AttendStatusServlet</servlet-name>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>TakeAttendanceServlet</servlet-name>
         <url-pattern>/takeAttendance</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

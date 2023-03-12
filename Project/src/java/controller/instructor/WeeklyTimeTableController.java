@@ -26,7 +26,7 @@ import model.TimeSlot;
  *
  * @author Nguyen Hoang Minh
  */
-public class SearchController extends HttpServlet {
+public class WeeklyTimeTableController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,21 +57,6 @@ public class SearchController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/instructor/WeeklyTimeTable.jsp").forward(request, response);
-
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
         String instructorId = request.getParameter("instuctorId");
         String raw_date = request.getParameter("Date");
 //        response.getWriter().print(instructorId+raw_date);
@@ -92,7 +77,42 @@ public class SearchController extends HttpServlet {
         request.setAttribute("timeslots", timeslots);
         request.setAttribute("sessions", sessions);
         request.setAttribute("days", days);
-        request.getRequestDispatcher("view/instructor/WeeklyTimeTable.jsp").forward(request,response);
+        request.getRequestDispatcher("../view/instructor/WeeklyTimeTable.jsp").forward(request, response);
+
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        String instructorId = request.getParameter("instuctorId");
+        String raw_date = request.getParameter("Date");
+//        response.getWriter().print(instructorId+raw_date);
+        SessionDBContext db = new SessionDBContext();
+        TimeSlotDBContext db2 = new TimeSlotDBContext();
+        Date monday = MondayAndSundayOfWeek.getMonday(raw_date);
+        Date sunday = MondayAndSundayOfWeek.getSunday(raw_date);
+//        response.getWriter().println(monday.toString() + sunday.toString());
+        ArrayList<Day> days = MondayAndSundayOfWeek.getWholeWeekFromDate(monday);
+        ArrayList<TimeSlot> timeslots = db2.all();
+        ArrayList<Session> sessions = db.getSession(instructorId,monday,sunday);
+//        response.getWriter().println(days.size()+" 2 3 4 5 ");
+//        for(Day d: days){
+//            response.getWriter().println(d.getDate()+" "+d.getDateCount());
+//        }
+        request.setAttribute("instructorId", instructorId);
+        request.setAttribute("date", raw_date);
+        request.setAttribute("timeslots", timeslots);
+        request.setAttribute("sessions", sessions);
+        request.setAttribute("days", days);
+        request.getRequestDispatcher("../view/instructor/WeeklyTimeTable.jsp").forward(request,response);
     }
 
     /**

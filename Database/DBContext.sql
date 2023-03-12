@@ -6,6 +6,7 @@ Select roomId from Room
 
 Select courseId,courseName from Course
 
+Select * from Student
 
 --Group
 Select g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName
@@ -55,8 +56,13 @@ Insert into Attend(studentId,sessionId,[status],recordTime,comment) values (?,?,
 Select g.instructorId,g. from [Group] g
 inner join Instructor i on g.instructorId=i.instructorId
 
-Select * from Attend
+Select * from AttendTest
 
 Select * from [group]
 
-Insert into AttendTest values 
+Insert into AttendTest(studentId,sessionId,[status],recordTime,comment) values (?,?,?,?,?)
+
+--User
+Select instructorId,instructorName,password From Instructor where instructorId = 'sonnt5' and password = '1'
+
+Select studentid,studentName,password From Student where instructorId = ? and password = ?
