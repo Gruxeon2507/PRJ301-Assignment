@@ -14,7 +14,7 @@
             @import url(https://fonts.googleapis.com/css?family=Roboto:400,100);
 
             body {
-                background: url(https://dl.dropboxusercontent.com/u/23299152/Wallpapers/wallpaper-22705.jpg) no-repeat center center fixed;
+                background: url(https://i1-vnexpress.vnecdn.net/2021/02/20/DH-FPT-4359-1612093890-5647-1613785573.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=gQK2V-7CxACvJ6jG6kmv1Q) no-repeat center center fixed;
                 -webkit-background-size: cover;
                 -moz-background-size: cover;
                 -o-background-size: cover;
@@ -122,6 +122,7 @@
         </style>
     </head>
     <body>
+        
         <div class="login-card">
             <div class="logo">
                 <img src="https://hcmuni.fpt.edu.vn/Data/Sites/1/skins/default/img/og-image.png" alt="">

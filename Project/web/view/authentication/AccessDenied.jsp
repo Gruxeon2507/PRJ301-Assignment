@@ -15,6 +15,10 @@
         @import url("https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900|Nunito:200,300,400,600,700,800,900&display=swap");
         /*font import from google fonts*/
         body {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-family: "Nunito", sans-serif;
             transition: all 0.5s ease;
         }
@@ -121,7 +125,7 @@
                     <span class="broken">3</span>
                 </h1>
                 <h4 class="text-md">Access Denied !</h4>
-                <h4 class="text-sm text-sm-btm">You don’t have access to this area of application. Speak to your administrator to unblock this feature. You can go back to <a href="#">previous page</a></h4>
+                <h4 class="text-sm text-sm-btm">You don’t have access to this area of application. Speak to your administrator to unblock this feature. You can go back to <a href="../../login">previous page</a></h4>
             </div>
         </div>
     </body>
