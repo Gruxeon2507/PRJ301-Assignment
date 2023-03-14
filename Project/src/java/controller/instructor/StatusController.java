@@ -17,6 +17,7 @@ import model.Attend;
 import model.Session;
 import model.Student;
 import controller.authentication.BaseRequiredAuthenticatedControllerInstructor;
+import model.AbsentStudent;
 import model.User;
 /**
  *
@@ -31,20 +32,30 @@ public class StatusController extends BaseRequiredAuthenticatedControllerInstruc
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {
-        String groupName =  (String)req.getParameter("groupName");
-        String courseId = (String)req.getParameter("courseId");
+        String groupName = req.getParameter("groupName");
+        String groupId = req.getParameter("groupId");
+        String courseId = req.getParameter("courseId");
         String instructorId = "sonnt5";
         AttendDBContext attendDb = new  AttendDBContext();
+        AttendDBContext attendDb1 = new  AttendDBContext();
         SessionDBContext sessionDb = new SessionDBContext();
         ParticipateDBContext participateDb = new ParticipateDBContext();
-        ArrayList<Student> students = participateDb.getClass(groupName, instructorId, courseId);
+        ArrayList<Student> students = participateDb.getClass(Integer.parseInt(groupId), instructorId, courseId);
         ArrayList<Attend> status = attendDb.status(groupName, courseId, instructorId);
         ArrayList<Session> sessions = sessionDb.getInstructor(courseId, instructorId);
+        ArrayList<AbsentStudent> absentStudents = attendDb1.getAbsent(Integer.parseInt(groupId));
+        int totalSlot=sessions.size();
+        for(AbsentStudent a: absentStudents){
+            a.setNoSlot(a.getNoSlot()*100/totalSlot);
+            resp.getWriter().println(a.getNoSlot());
+        }
         req.setAttribute("status", status);
         req.setAttribute("sessions", sessions);
         req.setAttribute("coursename", courseId);
         req.setAttribute("groupname",groupName);
        req.setAttribute("students", students);
+       req.setAttribute("userid", user.getDisplayname());
+       req.setAttribute("absent", absentStudents);
         req.getRequestDispatcher("../view/instructor/AttendanceStatus.jsp").forward(req, resp);
     }
     

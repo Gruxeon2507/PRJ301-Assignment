@@ -22,6 +22,7 @@ import java.sql.Date;
 import model.Day;
 import model.TimeSlot;
 import controller.authentication.BaseRequiredAuthenticatedControllerInstructor;
+import java.time.LocalDate;
 import model.User;
 /**
  *
@@ -69,15 +70,20 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         ArrayList<Day> days = MondayAndSundayOfWeek.getWholeWeekFromDate(monday);
         ArrayList<TimeSlot> timeslots = db2.all();
         ArrayList<Session> sessions = db.getStatusSession(instructorId,monday,sunday);
+        java.sql.Date currentDate = java.sql.Date.valueOf(java.time.LocalDate.now());
 //        response.getWriter().println(days.size()+" 2 3 4 5 ");
 //        for(Day d: days){
-//            response.getWriter().println(d.getDate()+" "+d.getDateCount());
+//            response.getWriter().println(d.getDate()+" "+d.getDateCount()+" "+currentDate);
+//            response.getWriter().println(d.getDate().compareTo(currentDate));
 //        }
+//        response.getWriter().print(sessions.get(0).getDate());
         request.setAttribute("instructorId", instructorId);
         request.setAttribute("date", raw_date);
         request.setAttribute("timeslots", timeslots);
         request.setAttribute("sessions", sessions);
         request.setAttribute("days", days);
+        request.setAttribute("userid", user.getDisplayname());
+        request.setAttribute("currentdate", currentDate);
         request.getRequestDispatcher("../view/instructor/WeeklyTimeTable.jsp").forward(request, response);
 
     }
@@ -107,6 +113,7 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         request.setAttribute("timeslots", timeslots);
         request.setAttribute("sessions", sessions);
         request.setAttribute("days", days);
+        request.setAttribute("userid", user.getDisplayname());
         request.getRequestDispatcher("../view/instructor/WeeklyTimeTable.jsp").forward(request,response);
     }
 

@@ -30,6 +30,7 @@ public class ClassListController extends BaseRequiredAuthenticatedControllerInst
         GroupDBContext GroupDB = new  GroupDBContext();
         ArrayList<Group> groups = GroupDB.getInstuctorGroup(instuctorId);
         req.setAttribute("groups", groups);
+        req.setAttribute("userid", user.getDisplayname());
         req.getRequestDispatcher("../view/instructor/ClassList.jsp").forward(req, resp);
     }
     

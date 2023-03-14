@@ -68,7 +68,8 @@ public class UpdateAttendanceController extends BaseRequiredAuthenticatedControl
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {    
-        String groupName = req.getParameter("groupName");
+        String groupId = req.getParameter("groupId");
+        String groupName = req.getParameter("groupNname");
         String courseId = req.getParameter("courseId");
         int sessionId=Integer.parseInt(req.getParameter("sessionId"));
         String instructorId = user.getUsername();
@@ -76,9 +77,9 @@ public class UpdateAttendanceController extends BaseRequiredAuthenticatedControl
         AttendDBContext attendDb = new AttendDBContext();
         SessionDBContext sessionDb = new SessionDBContext();
         ParticipateDBContext participateDb = new ParticipateDBContext();
-        ArrayList<Student> students = participateDb.getClass(groupName, instructorId, courseId);
+        ArrayList<Student> students = participateDb.getClass(Integer.parseInt(groupId), instructorId, courseId);
         ArrayList<Session> sessions = sessionDb.getInstructor(courseId, instructorId);
-        ArrayList<Attend> attends = attendDb.getAttendedSession(groupName, courseId, instructorId, sessionId);
+        ArrayList<Attend> attends = attendDb.getAttendedSession(Integer.parseInt(groupId), courseId, instructorId, sessionId);
         
         req.setAttribute("sessionid", sessionId);
         req.setAttribute("attends", attends);
@@ -87,6 +88,7 @@ public class UpdateAttendanceController extends BaseRequiredAuthenticatedControl
         req.setAttribute("groupname", groupName);
         req.setAttribute("students", students);
         req.setAttribute("sessions", sessions);
+        req.setAttribute("userid", user.getDisplayname());
         req.getRequestDispatcher("../view/instructor/UpdateAttendance.jsp").forward(req, resp);
     }
     
