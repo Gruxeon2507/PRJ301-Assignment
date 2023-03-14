@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.AbsentStudent;
 import model.Attend;
 import model.Course;
 import model.Group;
@@ -92,11 +93,11 @@ public class AttendDBContext extends DBContext<Attend> {
     public void updateAttendance(ArrayList<Attend> model) {
         PreparedStatement stm = null;
         try {
-            String temp= "Update Attend set [status] = ?,comment = ?, recordTime = ? where studentId = ? and sessionId = ?";
+            String temp = "Update Attend set [status] = ?,comment = ?, recordTime = ? where studentId = ? and sessionId = ?";
             String sql = temp;
-            int s=model.size();
+            int s = model.size();
             for (int i = 1; i < s; i++) {
-                sql = sql+" "+temp;
+                sql = sql + " " + temp;
             }
 // 
 //            for(Attend a:model){
@@ -111,7 +112,7 @@ public class AttendDBContext extends DBContext<Attend> {
 //                stm.setInt(j++, model.get(0).getSession().getId());
             for (Attend a : model) {
                 stm.setBoolean(j++, a.isStatus());
-                stm.setString(j++,a.getComment());
+                stm.setString(j++, a.getComment());
                 stm.setTimestamp(j++, a.getRecordTime());
                 stm.setString(j++, a.getStudent().getId());
                 stm.setInt(j++, a.getSession().getId());
@@ -221,7 +222,7 @@ public class AttendDBContext extends DBContext<Attend> {
         return attends;
     }
 
-    public ArrayList<Attend> getAttendedSession(String groupName, String courseId, String instuctorId, int sessionId) {
+    public ArrayList<Attend> getAttendedSession(int groupId, String courseId, String instuctorId, int sessionId) {
         ArrayList<Attend> attends = new ArrayList<>();
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -233,9 +234,9 @@ public class AttendDBContext extends DBContext<Attend> {
                     + "inner join Room r on se.roomId=r.roomId\n"
                     + "inner join [Group] g on se.groupId=g.groupId\n"
                     + "inner join Course c on g.courseId=c.courseId\n"
-                    + "where groupName= ? and c.courseId =?  and se.lecturerId=? and a.sessionId=?";
+                    + "where g.groupId= ? and c.courseId =?  and se.lecturerId=? and a.sessionId=?";
             stm = connection.prepareStatement(sql);
-            stm.setString(1, groupName);
+            stm.setInt(1, groupId);
             stm.setString(2, courseId);
             stm.setString(3, instuctorId);
             stm.setInt(4, sessionId);
@@ -309,4 +310,43 @@ public class AttendDBContext extends DBContext<Attend> {
         }
         return attends;
     }
+
+    public ArrayList<AbsentStudent> getAbsent(int groupId) {
+        ArrayList<AbsentStudent> students = new ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select s.studentId, sum(1 - CAST(a.[status] as int)) as absentCount from Student s left join Attend a on s.studentId = a.studentId left join [Session] ses on a.sessionId = ses.sessionId where ses.groupId = ? group by s.studentId";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, groupId);
+            rs=stm.executeQuery();
+            while(rs.next()){
+                AbsentStudent s = new AbsentStudent();
+                s.setStudentId(rs.getString("studentId"));
+                s.setNoSlot(rs.getInt("absentCount"));
+                students.add(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return students;
+    }
+
 }

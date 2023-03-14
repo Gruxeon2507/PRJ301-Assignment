@@ -28,6 +28,10 @@
         <servlet-name>UpdateAttendanceServlet</servlet-name>
         <servlet-class>controller.instructor.UpdateAttendanceController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>controller.authentication.LogoutController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WeeklyTimeTableDisplayServlet</servlet-name>
         <url-pattern>/instructor/weeklyTimeTable</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>UpdateAttendanceServlet</servlet-name>
         <url-pattern>/instructor/updateAttendance</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

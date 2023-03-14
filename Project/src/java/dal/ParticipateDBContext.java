@@ -44,7 +44,7 @@ public class ParticipateDBContext extends DBContext<Participate> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public ArrayList<Student> getClass(String groupName,String instructorId, String courseId) {
+    public ArrayList<Student> getClass(int groupId,String instructorId, String courseId) {
         ArrayList<Student> students = new ArrayList<>();
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -53,9 +53,9 @@ public class ParticipateDBContext extends DBContext<Participate> {
                     + "inner join [Group] g on p.groupId=g.groupId\n"
                     + "inner join Instructor i on g.instructorId=i.instructorId\n"
                     + "inner join Course c on g.courseId=c.courseId\n"
-                    + "where groupName=? and i.instructorId=? and c.courseId=?";
+                    + "where p.groupId=? and i.instructorId=? and c.courseId=?";
             stm = connection.prepareStatement(sql);
-            stm.setString(1, groupName);
+            stm.setInt(1, groupId);
             stm.setString(2,instructorId);
             stm.setString(3, courseId);
             rs = stm.executeQuery();
