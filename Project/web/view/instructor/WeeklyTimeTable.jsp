@@ -76,6 +76,7 @@
                 flex-direction: column;
                 padding: 24px;
                 border-right: 1px solid #dadce0;
+                height: 870px;
             }
 
             li {
@@ -160,7 +161,7 @@
         </style>
     </head>
     <body>
-        <div class="side_nav">
+        <div class="side_nav" style="height:870px;">
             <div class="logo">
                 <img src="https://hcmuni.fpt.edu.vn/Data/Sites/1/skins/default/img/og-image.png" alt="">
             </div>
@@ -236,13 +237,15 @@
                                                     <p class="attend_status">
                                                         <c:if test="${s.status}">
                                                             (<span class="attended">attended</span>)<br>
-                                                            <c:if test="${s.date eq requestScope.currentdate}">
-                                                                <a class="attendance" href="updateAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}&groupId=${s.group.id}">update attendance</a>
+                                                            <c:if test="${s.date eq requestScope.currentdate }">
+                                                                <c:if test="${requestScope.instructorId eq requestScope.user}">
+                                                                    <a class="attendance" href="updateAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}&groupId=${s.group.id}">update attendance</a>
+                                                                </c:if>
                                                             </c:if>
                                                         </c:if>
                                                         <c:if test="${!s.status}">
                                                             (<span class="not-yet"> not-yet</span>)<br>
-                                                            <c:if test="${d.date eq requestScope.currentdate}">
+                                                            <c:if test="${d.date eq requestScope.currentdate and requestScope.instructorId eq requestScope.user}">
                                                                 <a class="attendance" href="takeAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}&groupId=${s.group.id}"> take attendance</a>
                                                             </c:if>
                                                         </c:if>
