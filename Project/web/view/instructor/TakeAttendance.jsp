@@ -72,6 +72,7 @@
                 flex-direction: column;
                 padding: 24px;
                 border-right: 1px solid #dadce0;
+                height: 870px;
             }
 
             li {
@@ -170,7 +171,7 @@
         </div>
         <div class="main_content">
             <div class="header">
-                <h1>Attendance for ${requestScope.groupname} ${requestScope.coursename}</h1>
+                <h1>Attendance for ${requestScope.groupName} ${requestScope.coursename}</h1>
             </div>
 
             <div class="schedule">

@@ -14,81 +14,246 @@
         <title>JSP Page</title>
         <link rel="stylesheet" href="WeeklyTimeTable.css">
         <style>
-            .schedule table tr td{
-                width: 150px;
+            table{
                 text-align: center;
-                height: 130px;
+                border-collapse: collapse;
+                grid-column: 2 / 3;
+                display: flex;
+                flex-direction: column;
+                margin: 20px;
+                text-align: center;
+
             }
-            .schedule table th td{
-                height: 80px;
+            input{
+                width:130px
             }
-            .isHavingClass{
-                color: white;
-                background-color: orange;
+            .main_content{
+                width: 80%;
+            }
+            body{
+                display: flex;
+            }
+            tr{
+                height: 100px;
+            }
+            td{
+                text-align: center;
+                width: 170px;
+                border:1px solid;
+            }
+            th{
+                text-align: center;
+                width: 170px;
+                border:1px solid;
+                background-color: #99ccff;
+            }
+            .header{
+                height: 10%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+
+            }
+            p{
+                padding: 0;
+                margin: 5px;
+            }
+            .side_nav {
+                width: 20%;
+                grid-column: 1 / 2;
+                grid-row: 1 / 4;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                padding: 24px;
+                border-right: 1px solid #dadce0;
+            }
+            .side-nav {
+                grid-column: 1 / 2;
+                grid-row: 1 / 4;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                padding: 24px;
+                border-right: 1px solid #dadce0;
+                height: 870px;
+            }
+
+            li {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding-bottom: 16px;
+            }
+
+            li > a {
+                text-decoration: none;
+                font-weight: bold;
+                color: black;
+            }
+
+            li > a:hover {
+                color: #314AE7;
+                cursor: pointer;
+            }
+            /* Dropdown Button */
+            .dropbtn {
+
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+            }
+
+            /* The container <div> - needed to position the dropdown content */
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            /* Dropdown Content (Hidden by Default) */
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            /* Links inside the dropdown */
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+            .logo img{
+                width: 100%;
+            }
+            /* Change color of dropdown links on hover */
+            .dropdown-content a:hover {
+                background-color: #ddd;
+            }
+
+            /* Show the dropdown menu on hover */
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            /* Change the background color of the dropdown button when the dropdown content is shown */
+            .dropdown:hover .dropbtn {
+                background-color: white;
+            }
+            .attended{
+                color:green;
+            }
+            .not-yet{
+                color:red;
+            }
+            .attend_status a{
+                text-decoration: none;
+                background-color: whitesmoke;
+                padding:2px;
+                color:black;
+                border:1px solid;
+                margin-top: 10px;
             }
         </style>
     </head>
     <body>
+        <div class="side_nav" style="height:870px;">
+            <div class="logo">
+                <img src="https://hcmuni.fpt.edu.vn/Data/Sites/1/skins/default/img/og-image.png" alt="">
+            </div>
+            <ul class="nav-links">
+                <li>
 
-        <div class="schedule">
-            <table border="1px">
-                <thead>
-                <td><form action="weeklyTimeTable" method="POST">
-                        <input type="date" name="Date" id="Date" value="${requestScope.date}"><br>
-                        <input type="submit" value="search">
-                    </form></td>
-                <c:forEach items="${requestScope.days}" var="d">
-                    <c:if test="${d.dateCount eq 0}"><td>Mon<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                    <c:if test="${d.dateCount eq 1}"><td>Tue<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                    <c:if test="${d.dateCount eq 2}"><td>Wed<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                    <c:if test="${d.dateCount eq 3}"><td>Thu<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                    <c:if test="${d.dateCount eq 4}"><td>Fri<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                    <c:if test="${d.dateCount eq 5}"><td>Sat<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                    <c:if test="${d.dateCount eq 6}"><td>Sun<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                </c:forEach>
-                </thead>
-                </tr>
-                <!--                <tr>
-                                    <td>slot 1 <br> (7h30-9h50)</td>
-                <c:forEach items="${requestScope.sessions}" var="s">
-                    <c:forEach items="${requestScope.days}" var="d">
-                        
-                    </c:forEach>
-                </c:forEach>
-            </tr>-->
-                <c:forEach items="${requestScope.timeslots}" var ="t">
-                    <tr>
-                        <td>Slot ${t.slotNumber}</td>
-                    <c:forEach items="${requestScope.days}" var="d">
-                        <td>
+                    <a href="#">Weekly Timetable</a>
+                </li>
+                <li>
 
+                    <a href="list">Attendance Report</a>
+                </li>
 
-                        <c:forEach items="${requestScope.sessions}" var="s">
-                            <c:if test="${s.date eq d.date}">
-                                <c:if test="${s.slot.slotNumber eq t.slotNumber}">
-                                    <div class="isHavingClass">
-                                        <p class="subject">${s.group.course.id}</p>
-                                        <p class="className">${s.group.name}</p>
-                                        <p class="location">at ${s.room.id}</p>
-                                        <p class="attend_status">
-                                            <c:if test="${s.status}">
-                                                            attended 
-                                                        </c:if>
-                                                        <c:if test="${!s.status}">
-                                                            not-yet
-                                                        </c:if>
-                                        </p>
-                                    </div>
-                                </c:if>
-                            </c:if>
+            </ul>
+
+            <div class="storage">
+                <a href="#">By Khieu Minh Duc</a>  
+            </div>
+        </div>
+        <div class="main_content">
+            <div class="header">
+                <div class="user-menu">
+                    <div class="dropdown">
+                        <button class="dropbtn">${requestScope.userid}</button>
+                        <div class="dropdown-content">
+                            <a href="#">Setting</a>
+                            <a href="../logout">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schedule">
+                <table>
+                    <thead>
+                    <td><form action="weeklyTimeTable" method="POST">
+                            <input type="date" name="Date" id="Date" value="${requestScope.date}"><br>
+                            <input type="submit" value="search">
+                        </form></td>
+                        <c:forEach items="${requestScope.days}" var="d">
+                            <c:if test="${d.dateCount eq 0}"><td>Mon<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
+                        <c:if test="${d.dateCount eq 1}"><td>Tue<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
+                        <c:if test="${d.dateCount eq 2}"><td>Wed<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
+                        <c:if test="${d.dateCount eq 3}"><td>Thu<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
+                        <c:if test="${d.dateCount eq 4}"><td>Fri<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
+                        <c:if test="${d.dateCount eq 5}"><td>Sat<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
+                        <c:if test="${d.dateCount eq 6}"><td>Sun<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
+                        </c:forEach>
+                    </thead>
+                    </tr>
+                    <!--                <tr>
+                                        <td>slot 1 <br> (7h30-9h50)</td>
+                    <c:forEach items="${requestScope.sessions}" var="s">
+                        <c:forEach items="${requestScope.days}" var="d">
+                            
                         </c:forEach>
                     </c:forEach>
-                    </td>
-                    </tr>
-                </c:forEach>
+                </tr>-->
+                    <c:forEach items="${requestScope.timeslots}" var ="t">
+                        <tr>
+                            <td>Slot ${t.slotNumber}</td>
+                            <c:forEach items="${requestScope.days}" var="d">
+                                <td>
 
 
-            </table>
+                                    <c:forEach items="${requestScope.sessions}" var="s">
+                                        <c:if test="${s.date eq d.date}">
+                                            <c:if test="${s.slot.slotNumber eq t.slotNumber}">
+                                                <div class="isHavingClass">
+                                                    <p class="subject">${s.group.course.id} at ${s.room.id}</p>
+                                                    <p class="className">${s.group.name}</p>
+                                                    <p class="attend_status">
+                                                        <c:if test="${s.status}">
+                                                            (<span class="attended">attended </span>)
+                                                        </c:if>
+                                                        <c:if test="${!s.status}">
+                                                            (<span class="not-yet">not-yet </span>)
+                                                        </c:if>
+                                                    </p>
+                                                </div>
+                                            </c:if>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                    </c:forEach>
+
+
+                </table>
+            </div>
         </div>
+
     </body>
 </html>

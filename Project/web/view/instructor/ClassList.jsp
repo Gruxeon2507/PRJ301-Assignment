@@ -59,6 +59,7 @@
                 flex-direction: column;
                 padding: 24px;
                 border-right: 1px solid #dadce0;
+                height: 870px;
             }
             .side-nav {
                 grid-column: 1 / 2;
@@ -149,6 +150,9 @@
                 border:1px solid;
                 margin-top: 10px;
             }
+            .title{
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -159,7 +163,7 @@
             <ul class="nav-links">
                 <li>
 
-                    <a href="#">Weekly Timetable</a>
+                    <a href="weeklyTimeTable?Date=${requestScope.currentdate}&instuctorId=${requestScope.username}">Weekly Timetable</a>
                 </li>
                 <li>
 
@@ -186,6 +190,7 @@
             </div>
 
             <div class="schedule">
+                <div class="title"><h1>Choose Group</h1></div>
                 <ul>
                     <c:forEach items="${requestScope.groups}" var="g">
                         <li><a href="/Project/instructor/status?groupName=${g.name}&courseId=${g.course.id}&groupId=${g.id}">${g.name}-${g.course.id}</a></li>

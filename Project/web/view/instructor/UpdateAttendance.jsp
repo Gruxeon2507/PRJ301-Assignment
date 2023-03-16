@@ -77,6 +77,7 @@
                 flex-direction: column;
                 padding: 24px;
                 border-right: 1px solid #dadce0;
+                height: 870px;
             }
 
             li {
