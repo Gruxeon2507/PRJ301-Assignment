@@ -125,7 +125,8 @@
         
         <div class="login-card">
             <div class="logo">
-                <img src="https://hcmuni.fpt.edu.vn/Data/Sites/1/skins/default/img/og-image.png" alt="">
+<!--                <img src="https://hcmuni.fpt.edu.vn/Data/Sites/1/skins/default/img/og-image.png" alt="">-->
+
             </div>
             <h1>Log-in</h1><br>
             <form method="POST" action="login">

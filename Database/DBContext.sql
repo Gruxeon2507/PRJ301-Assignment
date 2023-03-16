@@ -94,9 +94,47 @@ Select instructorId,instructorName From Instructor where instructorId = 'sonnt5'
 Select studentid,studentName,password From Student where instructorId = ? and password = ?
 
 --Get %Absent
-select s.studentId, sum(1 - CAST(a.[status] as int)) as absentCount from Student s left join Attend a on s.studentId = a.studentId left join [Session] ses on a.sessionId = ses.sessionId where ses.groupId = 10 group by s.studentId
+select s.studentId, sum(1 - CAST(a.[status] as int)) as absentCount from Student s left join Attend a on s.studentId = a.studentId
+left join [Session] ses on a.sessionId = ses.sessionId where ses.groupId = 10 group by s.studentId
 
-select *from [Group] where groupId = '15'  
+--Get %Absent of a single student
+select s.studentId, sum(1 - CAST(a.[status] as int)) as absentCount from Student s left join Attend a on s.studentId = a.studentId
+left join [Session] ses on a.sessionId = ses.sessionId where s.Studentid='HE170996' group by s.studentid
+
+--get student course
+select c.courseId,c.courseName from Student s inner join Participate p on s.studentId=p.studentId
+inner join [Group] g on p.groupId = g.groupId
+inner join Course c on c.courseId=g.courseId
+inner join Instructor i on g.instructorId=i.instructorId 
+where s.studentid = 'HE170996'
+
+select c.courseId,c.courseName,groupName from Student s inner join Participate p on s.studentId=p.studentId
+inner join [Group] g on p.groupId = g.groupId
+inner join Course c on c.courseId=g.courseId
+where s.studentid = 'HE170996'
+--Get Session of a course
+select distinct ses.[date]  from [session] ses left join Attend a on a.sessionId=ses.sessionId
+inner join [Group] g on ses.groupId=g.groupId 
+inner join Course c on g.courseId=c.courseId
+where c.courseId='PRJ301' and g.groupId in (Select g.groupId from [Group]  g inner join Participate p on g.groupId=p.groupId
+inner join Student s on p.studentId=s.studentId
+inner join Course c on c.courseId=g.courseId
+where s.studentId = 'HE170996' and c.courseId='PRJ301')
+
+--Get a student attendance of a course
+select distinct ses.[date],a.[status] from [session] ses left join Attend a on a.sessionId=ses.sessionId
+left join Student s on s.studentId=a.studentId
+inner join [Group] g on ses.groupId=g.groupId 
+inner join Course c on g.courseId=c.courseId
+where s.studentId='HE170996' and g.groupId in (Select g.groupId from [Group]  g inner join Participate p on g.groupId=p.groupId
+inner join Student s on p.studentId=s.studentId
+inner join Course c on c.courseId=g.courseId
+where s.studentId = 'HE170996' and c.courseId='PRJ301')
+
+select from [Group] where groupId = '15'
+
+Select * from session
+
 create proc getAbsentCount
 @groupId int
 as 
