@@ -147,4 +147,58 @@ public class GroupDBContext extends DBContext<Group> {
         return groups;
     }
 
+    public ArrayList<Group> getStudentGroupByStudentId(String studentId) {
+        ArrayList<Group> groups = new ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName from Student s inner join Participate p on s.studentId=p.studentId\n"
+                    + "inner join [Group] g on p.groupId = g.groupId\n"
+                    + "inner join Course c on c.courseId=g.courseId\n"
+                    + "inner join Instructor i on g.instructorId=i.instructorId \n"
+                    + "where s.studentid = ? ";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, studentId);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Group g = new Group();
+                Course c = new Course();
+                Instructor i = new Instructor();
+
+                g.setId(rs.getInt("groupId"));
+                g.setName(rs.getString("groupName"));
+
+                c.setId(rs.getString("courseId"));
+                c.setName(rs.getString("courseName"));
+
+                i.setId(rs.getString("instructorId"));
+                i.setName(rs.getString("instructorName"));
+
+                g.setCourse(c);
+                g.setInstructor(i);
+
+                groups.add(g);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return groups;
+    }
 }

@@ -153,6 +153,13 @@
             .title{
                 text-align: center;
             }
+            .header{
+                height: 10%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-right: 10px
+            }
         </style>
     </head>
     <body>

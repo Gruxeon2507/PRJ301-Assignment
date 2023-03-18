@@ -44,9 +44,9 @@ public class StatusController extends BaseRequiredAuthenticatedControllerInstruc
         ArrayList<Attend> status = attendDb.status(groupName, courseId, instructorId);
         ArrayList<Session> sessions = sessionDb.getInstructor(courseId, instructorId);
         ArrayList<AbsentStudent> absentStudents = attendDb1.getAbsent(Integer.parseInt(groupId));
-        int totalSlot=sessions.size();
+        float totalSlot=sessions.size();
         for(AbsentStudent a: absentStudents){
-            a.setNoSlot(a.getNoSlot()*100/totalSlot);
+            a.setNoSlot((int)(a.getNoSlot()/totalSlot*100));
             resp.getWriter().println(a.getNoSlot());
         }
         req.setAttribute("status", status);
@@ -58,5 +58,8 @@ public class StatusController extends BaseRequiredAuthenticatedControllerInstruc
        req.setAttribute("absent", absentStudents);
         req.getRequestDispatcher("../view/instructor/AttendanceStatus.jsp").forward(req, resp);
     }
-    
+    public static void main(String[] args) {
+        ArrayList<Session> sessions = new SessionDBContext().getInstructor("PRJ301", "sonnt5");
+        System.out.println(sessions.size());
+    }
 }

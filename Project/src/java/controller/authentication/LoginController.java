@@ -41,10 +41,12 @@ public class LoginController extends HttpServlet{
         UserDBContext db = new UserDBContext();
         User user = db.get(username, password);
         if (user != null && user.getRole()==1) {
+            request.getSession();
             request.getSession().setAttribute("user", user);
             java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
             response.sendRedirect("../../Project/instructor/weeklyTimeTable?Date="+currentDate+"&instuctorId="+user.getUsername());
         }else if(user != null && user.getRole()==0){
+            request.getSession();
             request.getSession().setAttribute("user", user);
             java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
             response.sendRedirect("../../Project/student/weeklyTimeTable?Date="+currentDate+"&studentId="+user.getUsername());

@@ -176,6 +176,13 @@
                 display: flex;
                 justify-content: center;
             }
+            .header{
+                height: 10%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-right: 10px
+            }
         </style>
     </head>
     <body>
@@ -227,7 +234,7 @@
                         <th class="missed-col">% Absent</th>
                             <c:forEach items="${requestScope.sessions}" var="s" varStatus="i">
                                 <c:if test="${s.group.name eq requestScope.groupname}">
-                                <th>${i.index}
+                                <th>${i.index+1}
                                 </th>
 
                             </c:if>

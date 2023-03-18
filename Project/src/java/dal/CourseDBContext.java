@@ -76,4 +76,44 @@ public class CourseDBContext extends DBContext<Course> {
         return courses;
     }
 
+    public ArrayList<Course> getCourseByStudentId(String studentId) {
+        ArrayList<Course> courses = new ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select c.courseId,c.courseName from Student s inner join Participate p on s.studentId=p.studentId\n"
+                    + "inner join [Group] g on p.groupId = g.groupId\n"
+                    + "inner join Course c on c.courseId=g.courseId\n"
+                    + "where s.studentid = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, studentId);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Course c = new Course();
+                c.setId(rs.getString("courseId"));
+                c.setName(rs.getString("courseName"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return courses;
+    }
+
 }

@@ -78,6 +78,7 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
 //        }
 //        response.getWriter().print(sessions.get(0).getDate());
         request.setAttribute("instructorId", instructorId);
+        request.setAttribute("user", user.getUsername());
         request.setAttribute("date", raw_date);
         request.setAttribute("timeslots", timeslots);
         request.setAttribute("sessions", sessions);
@@ -93,6 +94,7 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
      *
      * @param request servlet request
      * @param response servlet response
+     * @param user
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -108,12 +110,16 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         ArrayList<Day> days = MondayAndSundayOfWeek.getWholeWeekFromDate(monday);
         ArrayList<TimeSlot> timeslots = db2.all();
         ArrayList<Session> sessions = db.getStatusSession(instructorId,monday,sunday);
+        java.sql.Date currentDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+        
         request.setAttribute("instructorId", instructorId);
+        request.setAttribute("userid", user.getUsername());
         request.setAttribute("date", raw_date);
         request.setAttribute("timeslots", timeslots);
         request.setAttribute("sessions", sessions);
         request.setAttribute("days", days);
         request.setAttribute("userid", user.getDisplayname());
+        request.setAttribute("currentdate", currentDate);
         request.getRequestDispatcher("../view/instructor/WeeklyTimeTable.jsp").forward(request,response);
     }
 

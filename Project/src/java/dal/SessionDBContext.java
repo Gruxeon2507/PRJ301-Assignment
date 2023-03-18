@@ -41,7 +41,6 @@ public class SessionDBContext extends DBContext<Session> {
 
     public ArrayList<Session> getInstructor(String courseId, String instructorId) {
         ArrayList<Session> sessions = new ArrayList<>();
-        sessions.add(new Session());
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
@@ -115,7 +114,6 @@ public class SessionDBContext extends DBContext<Session> {
 
     public ArrayList<Session> getSession(String instuctorId, Date monday, Date sunday) {
         ArrayList<Session> sessions = new ArrayList<>();
-        sessions.add(new Session());
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
@@ -190,7 +188,6 @@ public class SessionDBContext extends DBContext<Session> {
 
     public ArrayList<Session> getStatusSession(String instuctorId, Date monday, Date sunday) {
         ArrayList<Session> sessions = new ArrayList<>();
-        sessions.add(new Session());
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
@@ -268,11 +265,10 @@ public class SessionDBContext extends DBContext<Session> {
 
     public ArrayList<Session> getStudentSession(String studentId, Date monday, Date sunday) {
         ArrayList<Session> sessions = new ArrayList<>();
-        sessions.add(new Session());
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            String sql = "Select distinct s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status]\n"
+            String sql = "Select s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status]\n"
                     + "From [Session] s inner join Instructor i on s.lecturerId=i.instructorId\n"
                     + "inner join TimeSlot t on s.slotId=t.slotId\n"
                     + "inner join Room r on s.roomId=r.roomId\n"
@@ -281,7 +277,7 @@ public class SessionDBContext extends DBContext<Session> {
                     + "inner join Participate p on p.groupId=g.groupId\n"
                     + "inner join Student su on p.studentId=su.studentId\n"
                     + "left join Attend a on a.sessionId=s.sessionId\n"
-                    + "where su.studentId=? and s.[date] between ? and ?";
+                    + "where su.studentId= ? and s.[date] between ? and ?";
             stm = connection.prepareStatement(sql);
             stm.setString(1, studentId);
             stm.setDate(2, monday);
@@ -315,7 +311,6 @@ public class SessionDBContext extends DBContext<Session> {
                 Room r = new Room();
                 r.setId(rs.getString("roomId"));
 
-                s.setStatus(rs.getBoolean("status"));
                 s.setGroup(g);
                 s.setInstructor(i);
                 s.setSlot(t);
@@ -355,4 +350,90 @@ public class SessionDBContext extends DBContext<Session> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public ArrayList<Session> getStudentSessionByStudentId(String studentId, String courseId) {
+        ArrayList<Session> sessions = new ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "Select distinct ses.sessionId,ses.sessionName,ses.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status] from [session] ses \n"
+                    + "inner join [Group] g on ses.groupId=g.groupId \n"
+                    + "inner join Course c on g.courseId=c.courseId\n"
+                    + "inner join Instructor i on ses.lecturerId=i.instructorId\n"
+                    + "inner join TimeSlot  t on ses.slotId=t.slotId\n"
+                    + "inner join Room r on ses.roomId=r.roomId\n"
+                    + "left join Attend a on ses.sessionId=a.sessionId\n"
+                    + "where c.courseId=? and g.groupId in (Select g.groupId from [Group]  g inner join Participate p on g.groupId=p.groupId\n"
+                    + "inner join Student s on p.studentId=s.studentId\n"
+                    + "inner join Course c on c.courseId=g.courseId\n"
+                    + "where s.studentId = ? and c.courseId=?)";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, courseId);
+            stm.setString(2, studentId);
+            stm.setString(3, courseId);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Session s = new Session();
+                s.setId(rs.getInt("sessionId"));
+                s.setDate(rs.getDate("date"));
+
+                Instructor i = new Instructor();
+                i.setId(rs.getString("instructorId"));
+                i.setName(rs.getString("instructorName"));
+
+                Course c = new Course();
+                c.setId(rs.getString("courseId"));
+                c.setName(rs.getString("courseName"));
+
+                Group g = new Group();
+                g.setId(rs.getInt("groupId"));
+                g.setName(rs.getString("groupName"));
+                g.setCourse(c);
+                g.setInstructor(i);
+
+                TimeSlot t = new TimeSlot();
+                t.setId(rs.getInt("slotId"));
+                t.setSlotNumber(rs.getInt("slotNumber"));
+                t.setStartTime(rs.getTime("startTime"));
+                t.setEndTime(rs.getTime("endTime"));
+
+                Room r = new Room();
+                r.setId(rs.getString("roomId"));
+                
+                s.setStatus(rs.getBoolean("status"));
+                s.setGroup(g);
+                s.setInstructor(i);
+                s.setSlot(t);
+                s.setRoom(r);
+                sessions.add(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return sessions;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<Session> sessions = new SessionDBContext().getStudentSessionByStudentId("HE170996", "PRJ301");
+        for (Session s : sessions) {
+            System.out.println(s.isStatus()==false);
+        }
+
+    }
 }

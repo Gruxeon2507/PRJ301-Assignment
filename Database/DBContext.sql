@@ -113,23 +113,41 @@ inner join [Group] g on p.groupId = g.groupId
 inner join Course c on c.courseId=g.courseId
 where s.studentid = 'HE170996'
 --Get Session of a course
-select distinct ses.[date]  from [session] ses left join Attend a on a.sessionId=ses.sessionId
+Select distinct ses.sessionId,ses.sessionName,ses.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status] from [session] ses 
 inner join [Group] g on ses.groupId=g.groupId 
 inner join Course c on g.courseId=c.courseId
+inner join Instructor i on ses.lecturerId=i.instructorId
+inner join TimeSlot  t on ses.slotId=t.slotId
+inner join Room r on ses.roomId=r.roomId
+left join Attend a on ses.sessionId=a.sessionId
 where c.courseId='PRJ301' and g.groupId in (Select g.groupId from [Group]  g inner join Participate p on g.groupId=p.groupId
 inner join Student s on p.studentId=s.studentId
 inner join Course c on c.courseId=g.courseId
 where s.studentId = 'HE170996' and c.courseId='PRJ301')
 
+
+select* from Instructor
 --Get a student attendance of a course
-select distinct ses.[date],a.[status] from [session] ses left join Attend a on a.sessionId=ses.sessionId
+go
+Create Procedure getAttendance @studentId varchar(100), @courseId varchar(100)
+as
+begin
+select distinct a.studentId,a.sessionId,a.[status],a.recordTime,a.comment,s.studentName,s.studentImage,ses.sessionName,ses.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId from [session] ses left join Attend a on a.sessionId=ses.sessionId
 left join Student s on s.studentId=a.studentId
 inner join [Group] g on ses.groupId=g.groupId 
 inner join Course c on g.courseId=c.courseId
-where s.studentId='HE170996' and g.groupId in (Select g.groupId from [Group]  g inner join Participate p on g.groupId=p.groupId
+inner join TimeSlot t on ses.slotId=t.slotId
+inner join Room r on ses.roomId=r.roomId
+inner join Instructor i on ses.lecturerId=i.instructorId
+inner join Student su on a.studentId=su.studentId
+where s.studentId=@studentId  and g.groupId in (Select g.groupId from [Group]  g inner join Participate p on g.groupId=p.groupId
 inner join Student s on p.studentId=s.studentId
 inner join Course c on c.courseId=g.courseId
-where s.studentId = 'HE170996' and c.courseId='PRJ301')
+where s.studentId = @studentId  and c.courseId= @courseId)
+end
+
+go
+exec getAttendance 'HE170996', 'PRJ301'
 
 select from [Group] where groupId = '15'
 

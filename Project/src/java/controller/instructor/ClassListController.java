@@ -29,6 +29,9 @@ public class ClassListController extends BaseRequiredAuthenticatedControllerInst
         String instuctorId = user.getUsername(); 
         GroupDBContext GroupDB = new  GroupDBContext();
         ArrayList<Group> groups = GroupDB.getInstuctorGroup(instuctorId);
+        java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+        req.setAttribute("currentdate", currentDate);
+        req.setAttribute("username", user.getUsername());
         req.setAttribute("groups", groups);
         req.setAttribute("userid", user.getDisplayname());
         req.getRequestDispatcher("../view/instructor/ClassList.jsp").forward(req, resp);

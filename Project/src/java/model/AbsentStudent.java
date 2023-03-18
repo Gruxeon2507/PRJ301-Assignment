@@ -10,7 +10,7 @@ package model;
  */
 public class AbsentStudent {
     private String studentId;
-    private int noSlot;
+    private float noSlot;
 
     public String getStudentId() {
         return studentId;
@@ -20,11 +20,11 @@ public class AbsentStudent {
         this.studentId = studentId;
     }
 
-    public int  getNoSlot() {
+    public float  getNoSlot() {
         return noSlot;
     }
 
-    public void setNoSlot(int noSlot) {
+    public void setNoSlot(float noSlot) {
         this.noSlot = noSlot;
     }
     

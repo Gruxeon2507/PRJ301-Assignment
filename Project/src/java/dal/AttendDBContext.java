@@ -319,8 +319,8 @@ public class AttendDBContext extends DBContext<Attend> {
             String sql = "select s.studentId, sum(1 - CAST(a.[status] as int)) as absentCount from Student s left join Attend a on s.studentId = a.studentId left join [Session] ses on a.sessionId = ses.sessionId where ses.groupId = ? group by s.studentId";
             stm = connection.prepareStatement(sql);
             stm.setInt(1, groupId);
-            rs=stm.executeQuery();
-            while(rs.next()){
+            rs = stm.executeQuery();
+            while (rs.next()) {
                 AbsentStudent s = new AbsentStudent();
                 s.setStudentId(rs.getString("studentId"));
                 s.setNoSlot(rs.getInt("absentCount"));
@@ -347,6 +347,98 @@ public class AttendDBContext extends DBContext<Attend> {
             }
         }
         return students;
+    }
+
+    public ArrayList<Attend> getStudentAttendedSessions(String studentId, String courseId) {
+        ArrayList<Attend> attends = new ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select distinct a.studentId,a.sessionId,a.[status],a.recordTime,a.comment,s.studentName,s.studentImage,ses.sessionName,ses.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId from [session] ses left join Attend a on a.sessionId=ses.sessionId\n"
+                    + "left join Student s on s.studentId=a.studentId\n"
+                    + "inner join [Group] g on ses.groupId=g.groupId \n"
+                    + "inner join Course c on g.courseId=c.courseId\n"
+                    + "inner join TimeSlot t on ses.slotId=t.slotId\n"
+                    + "inner join Room r on ses.roomId=r.roomId\n"
+                    + "inner join Instructor i on ses.lecturerId=i.instructorId\n"
+                    + "inner join Student su on a.studentId=su.studentId\n"
+                    + "where s.studentId= ? and g.groupId in (Select g.groupId from [Group]  g inner join Participate p on g.groupId=p.groupId\n"
+                    + "inner join Student s on p.studentId=s.studentId\n"
+                    + "inner join Course c on c.courseId=g.courseId\n"
+                    + "where s.studentId = ? and c.courseId=?)";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1,studentId);
+            stm.setString(2,studentId);
+            stm.setString(3,courseId);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Session s = new Session();
+                s.setId(rs.getInt("sessionId"));
+                s.setDate(rs.getDate("date"));
+
+                Instructor i = new Instructor();
+                i.setId(rs.getString("instructorId"));
+                i.setId(rs.getString("instructorName"));
+
+                Course c = new Course();
+                c.setId(rs.getString("courseId"));
+                c.setName(rs.getString("courseName"));
+
+                Group g = new Group();
+                g.setId(rs.getInt("groupId"));
+                g.setName(rs.getString("groupName"));
+                g.setCourse(c);
+                g.setInstructor(i);
+
+                TimeSlot t = new TimeSlot();
+                t.setId(rs.getInt("slotId"));
+                t.setSlotNumber(rs.getInt("slotNumber"));
+                t.setStartTime(rs.getTime("startTime"));
+                t.setEndTime(rs.getTime("endTime"));
+
+                Room r = new Room();
+                r.setId(rs.getString("roomId"));
+
+                s.setGroup(g);
+                s.setInstructor(i);
+                s.setSlot(t);
+                s.setRoom(r);
+
+                Student st = new Student();
+                st.setId(rs.getString("studentId"));
+                st.setName(rs.getString("studentName"));
+                st.setImage(rs.getString("studentImage"));
+
+                Attend a = new Attend();
+                a.setStatus(rs.getBoolean("status"));
+                a.setRecordTime(rs.getTimestamp("recordTime"));
+                a.setComment(rs.getString("comment"));
+                a.setStudent(st);
+                a.setSession(s);
+
+                attends.add(a);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                stm.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return attends;
     }
 
 }
