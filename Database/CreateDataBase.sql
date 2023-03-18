@@ -137,6 +137,39 @@ DELETE FROM Instructor
 DELETE FROM TimeSlot
 DELETE FROM Course
 */
-
-
-
+CREATE TABLE [User]
+(
+	username varchar(50) NOT NULL primary key,
+	password varchar(50) DEFAULT '1',
+	displayname nvarchar(50),
+)
+CREATE TABLE Feature
+(
+	featureId int NOT NULL primary key,
+	featureUrl varchar(50),
+	featureName varchar(50),
+)
+CREATE TABLE [Role]
+(
+	roleId int NOT NULL primary key,
+	roleName varchar(50),
+)
+CREATE TABLE User_Role
+(
+	userId varchar(50) NOT NULL references [User](username),
+	roleId int NOT NULL references [Role](roleId),
+	PRIMARY KEY (userId, roleId)
+)
+CREATE TABLE Role_Feature
+(
+	roleId int NOT NULL references [Role](roleId),
+	featureId int NOT NULL references Feature(featureId),
+	CONSTRAINT PK_MapRoleFeature PRIMARY KEY (roleId, featureId)
+)
+/*
+	DROP TABLE Role_Feature
+	DROP TABLE User_Role
+	DROP TABLE [Role]
+	DROP TABLE Feature
+	DROP TABLE [User]
+*/

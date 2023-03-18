@@ -4,6 +4,7 @@
  */
 package controller.authentication;
 
+import dal.UserDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,7 +21,7 @@ import model.User;
 public abstract class BaseRequiredAuthenticatedControllerStudent extends HttpServlet {
 
     private boolean isAuthenticatedAsStudent(HttpServletRequest request) {
-        return request.getSession().getAttribute("user") != null && ((User)request.getSession().getAttribute("user")).getRole()==0;
+        return request.getSession().getAttribute("user") != null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -37,12 +38,19 @@ public abstract class BaseRequiredAuthenticatedControllerStudent extends HttpSer
             throws ServletException, IOException {
         if(isAuthenticatedAsStudent(request))
         {
-            //do business
-            doGet(request, response, (User)request.getSession().getAttribute("user"));
+            User user = (User)request.getSession().getAttribute("user");
+            String path = request.getServletPath();
+            boolean isAuthorized = new UserDBContext().isAuthorized(user, path);
+            if(isAuthorized){
+                doGet(request, response, (User)request.getSession().getAttribute("user"));
+            }else{
+                response.sendRedirect("../../../../Project/view/authentication/AccessDenied.jsp");
+            }
+
         }
         else
         {
-            response.sendRedirect("../../../../Project/view/authentication/AccessDenied.jsp");
+            response.sendRedirect("../../../../Project/view/authentication/Login.jsp");
         }
     }
     protected abstract void doGet(HttpServletRequest request, HttpServletResponse response,User user)
@@ -63,12 +71,19 @@ public abstract class BaseRequiredAuthenticatedControllerStudent extends HttpSer
             throws ServletException, IOException {
         if(isAuthenticatedAsStudent(request))
         {
-            //do business
-            doPost(request, response, (User)request.getSession().getAttribute("user"));
+            User user = (User)request.getSession().getAttribute("user");
+            String path = request.getServletPath();
+            boolean isAuthorized = new UserDBContext().isAuthorized(user, path);
+            if(isAuthorized){
+                doPost(request, response, (User)request.getSession().getAttribute("user"));
+            }else{
+                response.sendRedirect("../../../../Project/view/authentication/AccessDenied.jsp");
+            }
+
         }
         else
         {
-            response.sendRedirect("../../../../Project/view/authentication/AccessDenied.jsp");
+            response.sendRedirect("../../../../Project/view/authentication/Login.jsp");
         }
     }
 

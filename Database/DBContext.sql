@@ -125,6 +125,16 @@ inner join Student s on p.studentId=s.studentId
 inner join Course c on c.courseId=g.courseId
 where s.studentId = 'HE170996' and c.courseId='PRJ301')
 
+--User
+Select username,displayname From [User]
+where username = 'sonnt5' and [password] = '1'
+
+--Get User Path
+Select username, featureUrl From Role_Feature rf inner join [Role] r on rf.roleId=r.roleId
+inner join Feature f on f.featureId=rf.featureId
+inner join User_Role ur on ur.roleId=r.roleId
+inner join [User] u on u.username=ur.userId
+where username = 'sonnt5' and featureUrl = '/instructor/weeklyTimeTable'
 
 select* from Instructor
 --Get a student attendance of a course

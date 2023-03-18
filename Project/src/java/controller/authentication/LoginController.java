@@ -17,9 +17,9 @@ import model.User;
  *
  * @author Nguyen Hoang Minh
  */
-public class LoginController extends HttpServlet{
+public class LoginController extends HttpServlet {
 
-     @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("index.html").forward(request, response);
@@ -39,17 +39,20 @@ public class LoginController extends HttpServlet{
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UserDBContext db = new UserDBContext();
-        User user = db.get(username, password);
-        if (user != null && user.getRole()==1) {
-            request.getSession();
+        User user = db.getFromUser(username, password);
+        if (user != null) {
             request.getSession().setAttribute("user", user);
             java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
-            response.sendRedirect("../../Project/instructor/weeklyTimeTable?Date="+currentDate+"&instuctorId="+user.getUsername());
-        }else if(user != null && user.getRole()==0){
-            request.getSession();
-            request.getSession().setAttribute("user", user);
-            java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
-            response.sendRedirect("../../Project/student/weeklyTimeTable?Date="+currentDate+"&studentId="+user.getUsername());
+            if (new UserDBContext().isAuthorized(user, "/instructor/weeklyTimeTable")) {
+                response.sendRedirect("../../Project/instructor/weeklyTimeTable?Date=" + currentDate + "&instuctorId=" + user.getUsername());
+            } else {
+                response.sendRedirect("../../Project/student/weeklyTimeTable?Date=" + currentDate + "&studentId=" + user.getUsername());
+            }
+            //        else if(user != null && user.getRole()==0){
+            //            request.getSession().setAttribute("user", user);
+            //            java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+            //            
+            //        } 
         } else {
             response.sendRedirect("view/authentication/wrongpassword.jsp");
 //            response.sendRedirect("login");
