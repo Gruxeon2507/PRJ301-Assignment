@@ -160,6 +160,13 @@
             .save-button input{
                 font-size:130%;
             }
+            .header{
+                height: 10%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-right: 10px
+            }
         </style>
     </head>
     <body>

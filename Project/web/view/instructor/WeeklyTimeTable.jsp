@@ -34,7 +34,7 @@
                 display: flex;
             }
             tr{
-                height: 100px;
+                height: 110px;
             }
             td{
                 text-align: center;
@@ -157,6 +157,13 @@
                 color:black;
                 border:1px solid;
                 margin-top: 10px;
+            }
+            .header{
+                height: 10%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-right: 10px
             }
         </style>
     </head>

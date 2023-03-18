@@ -1,10 +1,9 @@
 <%-- 
-    Document   : WeeklyTimeTable
-    Created on : Mar 12, 2023, 1:40:35 PM
+    Document   : AttendanceStatus
+    Created on : Mar 18, 2023, 1:28:18 PM
     Author     : Nguyen Hoang Minh
 --%>
 
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,7 +11,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="WeeklyTimeTable.css">
         <style>
             table{
                 text-align: center;
@@ -34,7 +32,7 @@
                 display: flex;
             }
             tr{
-                height: 100px;
+                height: 50px;
             }
             td{
                 text-align: center;
@@ -48,11 +46,11 @@
                 background-color: #99ccff;
             }
             .header{
-                height: 10%;
+                height: 5%;
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
-
+                margin-right: 10px
             }
             p{
                 padding: 0;
@@ -158,13 +156,17 @@
                 border:1px solid;
                 margin-top: 10px;
             }
-            .header{
-                height: 5%;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                margin-right: 10px
+            .title{
+                text-align: center;
             }
+            .return-button a{
+                background-color: #5cb85c;
+                text-decoration: none;
+                color:white;
+                padding: 6px;
+                margin-left: 3px;
+            }
+            
         </style>
     </head>
     <body>
@@ -179,7 +181,7 @@
                 </li>
                 <li>
 
-                    <a href="list">Attendance Report</a>
+                    <a href="list">View Student Attendance Status</a>
                 </li>
 
             </ul>
@@ -188,9 +190,9 @@
                 <a href="#">By Khieu Minh Duc</a>  
             </div>
         </div>
-        
         <div class="main_content">
             <div class="header">
+
                 <div class="user-menu">
                     <div class="dropdown">
                         <button class="dropbtn">${requestScope.userid}</button>
@@ -203,62 +205,61 @@
             </div>
 
             <div class="schedule">
+                <div class="return-button">
+                    <a href="list">Back To Previous Page</a>
+                </div>
+                <div class="title">
+                    <h1>Attendance Status For ${requestScope.displayname} on ${requestScope.courseid}</h1>
+                </div>
+
                 <table>
                     <thead>
-                    <td><form action="weeklyTimeTable" method="POST">
-                            <input type="date" name="Date" id="Date" value="${requestScope.date}"><br>
-                            <input type="submit" value="search">
-                        </form></td>
-                        <c:forEach items="${requestScope.days}" var="d">
-                            <c:if test="${d.dateCount eq 0}"><td>Mon<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 1}"><td>Tue<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 2}"><td>Wed<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 3}"><td>Thu<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 4}"><td>Fri<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 5}"><td>Sat<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 6}"><td>Sun<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        </c:forEach>
+                    <th>NO</th>
+                    <th>DATE</th>
+                    <th>SLOT</th>
+                    <th>ROOM</th>
+                    <th>LECTURER</th>
+                    <th>GROUP NAME</th>
+                    <th>ATTENDANCE STATUS</th>
+                    <th>INSTRUCTOR'S COMMENT</th>
                     </thead>
-                    </tr>
-                    <!--                <tr>
-                                        <td>slot 1 <br> (7h30-9h50)</td>
-                    <c:forEach items="${requestScope.sessions}" var="s">
-                        <c:forEach items="${requestScope.days}" var="d">
-                            
-                        </c:forEach>
-                    </c:forEach>
-                </tr>-->
-                    <c:forEach items="${requestScope.timeslots}" var ="t">
+                    <c:forEach items="${requestScope.sessions}" var="s" varStatus="index">
                         <tr>
-                            <td>Slot ${t.slotNumber}</td>
-                            <c:forEach items="${requestScope.days}" var="d">
-                                <td>
-
-
-                                    <c:forEach items="${requestScope.sessions}" var="s">
-                                        <c:if test="${s.date eq d.date}">
-                                            <c:if test="${s.slot.slotNumber eq t.slotNumber}">
-                                                <div class="isHavingClass">
-                                                    <p class="subject">${s.group.course.id} at ${s.room.id}</p>
-                                                    <p class="className">${s.group.name}</p>
-                                                    <p class="attend_status">
-                                                        <c:if test="${s.status}">
-                                                            (<span class="attended">attended </span>)
-                                                        </c:if>
-                                                        <c:if test="${!s.status}">
-                                                            (<span class="not-yet">not-yet </span>)
-                                                        </c:if>
-                                                    </p>
-                                                </div>
+                            <td>${index.index+1}</td>
+                            <td>${s.date}</td>
+                            <td>${s.slot.slotNumber}</td>
+                            <td>${s.room.id}</td>
+                            <td>${s.instructor.id}</td>
+                            <td>${s.group.name}</td>
+                            <td>
+                                <c:if test="${s.status}">
+                                    <c:forEach items="${requestScope.attends}" var="a">
+                                        <c:if test="${s.id eq a.session.id}">
+                                            <c:if test="${a.status}">
+                                                <span class="attended">attended</span>
+                                            </c:if>
+                                            <c:if test="${!a.status}">
+                                                <span class="not-yet">absent</span>
                                             </c:if>
                                         </c:if>
                                     </c:forEach>
+                                </c:if>
+
+                                <c:if test="${!s.status}">
+                                    future
+                                </c:if>    
+                            </td>
+                            <td>
+                                <c:forEach items="${requestScope.attends}" var="a">
+                                    <c:if test="${s.id eq a.session.id}">
+                                        ${a.comment}
+                                    </c:if>
                                 </c:forEach>
                             </td>
                         </tr>
                     </c:forEach>
-
-
+                    <tr> <td colspan="8"><p> you have absent ${requestScope.absent}% so far</p></td>
+                    </tr>
                 </table>
             </div>
         </div>

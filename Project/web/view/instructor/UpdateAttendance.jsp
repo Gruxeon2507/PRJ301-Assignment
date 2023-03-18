@@ -31,7 +31,7 @@
                 text-align: center;
 
             }
-
+            
             .main_content{
                 width: 80%;
                 display: flex;
@@ -164,6 +164,13 @@
             }
             .save-button input{
                 font-size:130%;
+            }
+            .header{
+                height: 10%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-right: 10px
             }
         </style>
     </head>
