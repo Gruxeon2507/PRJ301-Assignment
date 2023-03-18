@@ -42,6 +42,7 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         request.setAttribute("timeslots", timeslots);
         request.setAttribute("sessions", sessions);
         request.setAttribute("days", days);
+        request.setAttribute("userid", user.getDisplayname());
         request.getRequestDispatcher("../view/student/WeeklyTimeTable.jsp").forward(request, response);
     }
 
@@ -58,7 +59,7 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         ArrayList<TimeSlot> timeslots = db2.all();
         ArrayList<Session> sessions = db.getStudentSession(studentId, monday, sunday);
         
-        
+        request.setAttribute("userid", user.getDisplayname());
         request.setAttribute("studentId", studentId);
         request.setAttribute("date", raw_date);
         request.setAttribute("timeslots", timeslots);
