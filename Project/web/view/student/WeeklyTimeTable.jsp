@@ -34,7 +34,7 @@
                 display: flex;
             }
             tr{
-                height: 100px;
+                height: 120px;
             }
             td{
                 text-align: center;
@@ -152,19 +152,58 @@
             }
             .attend_status a{
                 text-decoration: none;
-                background-color: whitesmoke;
+/*                background-color: whitesmoke;
                 padding:2px;
                 color:black;
                 border:1px solid;
-                margin-top: 10px;
+                margin-top: 10px;*/
             }
             .header{
-                height: 5%;
+                height: 8%;
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
                 margin-right: 10px
             }
+            .hours{
+                display: inline;
+                padding: .2em .6em .3em;
+                font-size: 75%;
+                font-weight: 700;
+                line-height: 1;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: baseline;
+                border-radius: .25em;
+                background-color: #5cb85c;
+            }
+            .isHavingClass{
+                text-align: left;
+            }
+            .label {
+                display: inline;
+                padding: .2em .6em .3em;
+                font-size: 75%;
+                font-weight: 700;
+                line-height: 1;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: baseline;
+                border-radius: .25em;
+            }
+            .attendance{
+                background-color: #f0ad4e;
+            }
+            .className{
+                background-color: #4d90fe;
+            }
+            .flm{
+                background-color: #f0ad4e;
+                text-decoration: none;
+            }
+  
         </style>
     </head>
     <body>
@@ -175,11 +214,15 @@
             <ul class="nav-links">
                 <li>
 
-                    <a href="#">Weekly Timetable</a>
+                    <a href="weeklyTimeTable?Date=${requestScope.currentdate}">Weekly Timetable</a>
                 </li>
                 <li>
 
                     <a href="list">Attendance Report</a>
+                </li>
+                <li>
+
+                    <a href="..\logout">Logout</a>
                 </li>
 
             </ul>
@@ -205,18 +248,19 @@
             <div class="schedule">
                 <table>
                     <thead>
-                    <td><form action="weeklyTimeTable" method="POST">
+                    <th><form action="weeklyTimeTable" method="GET">
                             <input type="date" name="Date" id="Date" value="${requestScope.date}"><br>
+                            
                             <input type="submit" value="search">
-                        </form></td>
+                        </form></th>
                         <c:forEach items="${requestScope.days}" var="d">
-                            <c:if test="${d.dateCount eq 0}"><td>Mon<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 1}"><td>Tue<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 2}"><td>Wed<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 3}"><td>Thu<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 4}"><td>Fri<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 5}"><td>Sat<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
-                        <c:if test="${d.dateCount eq 6}"><td>Sun<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></td></c:if>
+                            <c:if test="${d.dateCount eq 0}"><th>Mon<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                        <c:if test="${d.dateCount eq 1}"><th>Tue<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                        <c:if test="${d.dateCount eq 2}"><th>Wed<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                        <c:if test="${d.dateCount eq 3}"><th>Thu<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                        <c:if test="${d.dateCount eq 4}"><th>Fri<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                        <c:if test="${d.dateCount eq 5}"><th>Sat<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                        <c:if test="${d.dateCount eq 6}"><th>Sun<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
                         </c:forEach>
                     </thead>
                     </tr>
@@ -239,8 +283,9 @@
                                         <c:if test="${s.date eq d.date}">
                                             <c:if test="${s.slot.slotNumber eq t.slotNumber}">
                                                 <div class="isHavingClass">
-                                                    <p class="subject">${s.group.course.id} at ${s.room.id}</p>
-                                                    <p class="className">${s.group.name}</p>
+                                                    <p class="subject" style="font-weight: bold;">${s.group.course.id} at ${s.room.id}</p>
+                                                    
+                                                    <p class="className label">${s.group.name}</p>
                                                     <p class="attend_status">
                                                         <c:if test="${s.status}">
                                                             (<span class="attended">attended </span>)
@@ -249,6 +294,7 @@
                                                             (<span class="not-yet">not-yet </span>)
                                                         </c:if>
                                                     </p>
+                                                    <a class="label flm" href="https://flm.fpt.edu.vn/DefaultSignin">View material</a><br>
                                                 </div>
                                             </c:if>
                                         </c:if>

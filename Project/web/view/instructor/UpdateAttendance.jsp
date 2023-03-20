@@ -31,7 +31,7 @@
                 text-align: center;
 
             }
-            
+
             .main_content{
                 width: 80%;
                 display: flex;
@@ -172,6 +172,9 @@
                 align-items: center;
                 margin-right: 10px
             }
+            .title{
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -182,7 +185,7 @@
 
         </div>
         <div class="main_content">
-            <div class="header">
+            <div class="title">
                 <h1>Update Attendance for ${requestScope.groupname} ${requestScope.coursename}</h1>
             </div>
 

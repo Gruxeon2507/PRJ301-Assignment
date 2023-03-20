@@ -34,7 +34,7 @@
             tr{
                 height: 100px;
             }
-            td{
+            td, th{
                 text-align: center;
                 width: 170px;
                 border:1px solid;
@@ -160,6 +160,31 @@
                 align-items: center;
                 margin-right: 10px
             }
+            .no{
+                width: 50px;
+            }
+            .group{
+                width: 600px;
+            }
+            .group1{
+                width: 600px;
+                text-align: left;
+            }
+            .group1 a{
+                text-decoration: none;
+                padding-left:10px;
+            }
+            tr{
+                height:50px;
+            }
+            th{
+                background-color: #4d90fe;
+                text-align: center;
+            }
+            .table{
+                display: flex;
+                justify-content: center;
+            }
         </style>
     </head>
     <body>
@@ -176,11 +201,14 @@
 
                     <a href="list">View Student Attendance Status</a>
                 </li>
+                <li>
 
+                    <a href="..\logout">Logout</a>
+                </li>
             </ul>
 
             <div class="storage">
-                <a href="#">By Khieu Minh Duc</a>  
+                <p>By Khieu Minh Duc</p>  
             </div>
         </div>
         <div class="main_content">
@@ -198,11 +226,21 @@
 
             <div class="schedule">
                 <div class="title"><h1>Choose Group</h1></div>
-                <ul>
-                    <c:forEach items="${requestScope.groups}" var="g">
-                        <li><a href="/Project/instructor/status?groupName=${g.name}&courseId=${g.course.id}&groupId=${g.id}">${g.name}-${g.course.id}</a></li>
+                <div class="table">
+                    <table>
+                        <thead>
+                        <th class="no">NO</th>
+                        <th class="group">Group</th>
+                        </thead>
+
+                        <c:forEach items="${requestScope.groups}" var="g" varStatus="index">
+                            <tr>
+                                <td class="no">${index.index+1}</td>
+                                <td class="group1"><a href="/Project/instructor/status?groupName=${g.name}&courseId=${g.course.id}&groupId=${g.id}">${g.course.name} (${g.course.id}) - ${g.name}</a></td>
+                            </tr>
                         </c:forEach>
-                </ul>
+                    </table>
+                </div>
             </div>
         </div>
 

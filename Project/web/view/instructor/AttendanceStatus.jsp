@@ -4,6 +4,7 @@
     Author     : Nguyen Hoang Minh
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -153,7 +154,7 @@
                 font-size:130%;
             }
             td,th{
-                width: 25px;
+                width: 45px;
                 border: 1px solid;
             }
             .studentName{
@@ -183,6 +184,17 @@
                 align-items: center;
                 margin-right: 10px
             }
+            .absent{
+                background-color: red;
+                color: white;
+            }
+            .return-button a{
+                background-color: #5cb85c;
+                text-decoration: none;
+                color:white;
+                padding: 6px;
+                margin-left: 3px;
+            }
         </style>
     </head>
     <body>
@@ -193,11 +205,15 @@
             <ul class="nav-links">
                 <li>
 
-                    <a href="#">Weekly Timetable</a>
+                    <a href="weeklyTimeTable?Date=${requestScope.currentdate}&instuctorId=${requestScope.username}">Weekly Timetable</a>
                 </li>
                 <li>
 
                     <a href="list">View Student Attendance Status</a>
+                </li>
+                <li>
+
+                    <a href="..\logout">Logout</a>
                 </li>
 
             </ul>
@@ -234,7 +250,8 @@
                         <th class="missed-col">% Absent</th>
                             <c:forEach items="${requestScope.sessions}" var="s" varStatus="i">
                                 <c:if test="${s.group.name eq requestScope.groupname}">
-                                <th>${i.index+1}
+                                <th>${i.index+1} <br>
+                                    <fmt:formatDate pattern="dd-MM" value="${s.date}"></fmt:formatDate>
                                 </th>
 
                             </c:if>
@@ -244,14 +261,17 @@
                             <c:forEach items="${requestScope.students}" var="s">
                                 <tr>
                                     <td class="studentName">${s.name}</td>
+                           
                                     <td class="studentId">${s.id}</td>
-                                    <td class="missed-col">
-                                        <c:forEach items="${requestScope.absent}" var="a">
-                                            <c:if test="${s.id eq a.studentId}">
+
+                                    <c:forEach items="${requestScope.absent}" var="a">
+                                        <c:if test="${s.id eq a.studentId}">
+                                            <td class="missed-col<c:if test="${a.noSlot >= 20.00}"> absent</c:if>">
                                                 ${a.noSlot}%
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
+                                            </td>
+                                        </c:if>
+                                    </c:forEach>
+
                                     <c:forEach items="${requestScope.sessions}" var="se" varStatus="i">
 
                                         <c:if test="${se.group.name eq requestScope.groupname}">
@@ -259,9 +279,12 @@
                                                 <c:forEach items="${requestScope.status}" var="a">
                                                     <c:if test="${a.session.id eq se.id}">
                                                         <c:if test="${a.student.id eq s.id}">
-                                                            <input type="checkbox" <c:if test="${a.status}">
-                                                                   checked
-                                                                </c:if> disabled>
+                                                            <c:if test="${a.status}">
+                                                                <span style="color:green;">P</span>
+                                                            </c:if> 
+                                                            <c:if test="${!a.status}">
+                                                                <span style="color:red;">A</span>
+                                                            </c:if> 
                                                         </c:if>
                                                     </c:if>
 

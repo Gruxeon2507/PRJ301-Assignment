@@ -34,7 +34,7 @@
                 display: flex;
             }
             tr{
-                height: 110px;
+                height: 120px;
             }
             td{
                 text-align: center;
@@ -152,18 +152,52 @@
             }
             .attend_status a{
                 text-decoration: none;
-                background-color: whitesmoke;
+/*                background-color: whitesmoke;
                 padding:2px;
                 color:black;
                 border:1px solid;
-                margin-top: 10px;
+                margin-top: 10px;*/
             }
             .header{
-                height: 10%;
+                height: 8%;
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
                 margin-right: 10px
+            }
+            .hours{
+                display: inline;
+                padding: .2em .6em .3em;
+                font-size: 75%;
+                font-weight: 700;
+                line-height: 1;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: baseline;
+                border-radius: .25em;
+                background-color: #5cb85c;
+            }
+            .isHavingClass{
+                text-align: left;
+            }
+            .label {
+                display: inline;
+                padding: .2em .6em .3em;
+                font-size: 75%;
+                font-weight: 700;
+                line-height: 1;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: baseline;
+                border-radius: .25em;
+            }
+            .attendance{
+                background-color: #f0ad4e;
+            }
+            .className{
+                background-color: #4d90fe;
             }
         </style>
     </head>
@@ -181,11 +215,15 @@
 
                     <a href="list">View Student Attendance Status</a>
                 </li>
+                <li>
+
+                    <a href="..\logout">Logout</a>
+                </li>
 
             </ul>
 
             <div class="storage">
-                <a href="#">By Khieu Minh Duc</a>  
+                <a href="#" style="text-decoration: none">By Khieu Minh Duc</a>  
             </div>
         </div>
         <div class="main_content">
@@ -204,19 +242,19 @@
             <div class="schedule">
                 <table >
                     <thead>
-                    <th><form action="weeklyTimeTable" method="POST">
+                    <th><form action="weeklyTimeTable" method="GET">
                             Giảng viên: <input type="text" name="instuctorId" value="${requestScope.instructorId}"><br>
                             Chọn ngày: <input type="date" name="Date" id="Date" value="${requestScope.date}"><br>
                             <input type="submit" value="search">
                         </form></th>
                         <c:forEach items="${requestScope.days}" var="d">
                             <c:if test="${d.dateCount eq 0}"><th>Mon<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
-                        <c:if test="${d.dateCount eq 1}"><th>Tue<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
-                        <c:if test="${d.dateCount eq 2}"><th>Wed<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
-                        <c:if test="${d.dateCount eq 3}"><th>Thu<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
-                        <c:if test="${d.dateCount eq 4}"><th>Fri<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
-                        <c:if test="${d.dateCount eq 5}"><th>Sat<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
-                        <c:if test="${d.dateCount eq 6}"><th>Sun<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                            <c:if test="${d.dateCount eq 1}"><th>Tue<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                            <c:if test="${d.dateCount eq 2}"><th>Wed<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                            <c:if test="${d.dateCount eq 3}"><th>Thu<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                            <c:if test="${d.dateCount eq 4}"><th>Fri<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                            <c:if test="${d.dateCount eq 5}"><th>Sat<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
+                            <c:if test="${d.dateCount eq 6}"><th>Sun<br><fmt:formatDate pattern = "dd-MM-yyyy" value = "${d.date}" /></th></c:if>
                         </c:forEach>
                     </thead>
                     </tr>
@@ -239,24 +277,32 @@
                                         <c:if test="${s.date eq d.date}">
                                             <c:if test="${s.slot.slotNumber eq t.slotNumber}">
                                                 <div class="isHavingClass">
-                                                    <p class="subject">${s.group.course.id} at ${s.room.id}</p>
-                                                    <p class="className">${s.group.name}</p>
+                                                    <p class="subject"><span class="">${s.group.course.id}</span> at <span class="">${s.room.id}</span></p>
+                                                    <p class="className label">${s.group.name}</p>
                                                     <p class="attend_status">
                                                         <c:if test="${s.status}">
                                                             (<span class="attended">attended</span>)<br>
                                                             <c:if test="${s.date eq requestScope.currentdate }">
                                                                 <c:if test="${requestScope.instructorId eq requestScope.user}">
-                                                                    <a class="attendance" href="updateAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}&groupId=${s.group.id}">update attendance</a>
+                                                                    <a class="attendance label" href="updateAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}&groupId=${s.group.id}">edit attendance</a>
                                                                 </c:if>
+                                                               
+                                                            </c:if>
+                                                            <c:if test="${s.date ne requestScope.currentdate }">
+                                                                <c:if test="${requestScope.instructorId eq requestScope.user}">
+                                                                    <a class="attendance label" href="viewAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}&groupId=${s.group.id}">view attendance</a>
+                                                                </c:if>
+                                                               
                                                             </c:if>
                                                         </c:if>
                                                         <c:if test="${!s.status}">
                                                             (<span class="not-yet"> not-yet</span>)<br>
                                                             <c:if test="${d.date eq requestScope.currentdate and requestScope.instructorId eq requestScope.user}">
-                                                                <a class="attendance" href="takeAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}&groupId=${s.group.id}"> take attendance</a>
+                                                                <a class="attendance label" href="takeAttendance?groupName=${s.group.name}&courseId=${s.group.course.id}&sessionId=${s.id}&groupId=${s.group.id}"> take attendance</a>
                                                             </c:if>
                                                         </c:if>
                                                     </p>
+                                                    <p class="hours"><fmt:formatDate pattern="HH:mm" value="${s.slot.startTime}"/>-<fmt:formatDate pattern="HH:mm" value="${s.slot.endTime}"/></p>
                                                 </div>
                                             </c:if>
                                         </c:if>

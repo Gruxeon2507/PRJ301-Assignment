@@ -32,7 +32,9 @@ public class CourseListController extends BaseRequiredAuthenticatedControllerStu
     protected void doGet(HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException, IOException {
         GroupDBContext groupDB = new GroupDBContext();
         ArrayList<Group> groups = groupDB.getStudentGroupByStudentId(user.getUsername());
-        
+        java.sql.Date currentDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+        req.setAttribute("currentdate", currentDate);
+        req.setAttribute("username", user.getDisplayname());
         req.setAttribute("userid", user.getUsername());
         req.setAttribute("groups", groups);
         req.getRequestDispatcher("../view/student/CourseList.jsp").forward(req, resp);

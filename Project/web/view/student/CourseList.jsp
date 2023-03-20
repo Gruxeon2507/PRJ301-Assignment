@@ -32,25 +32,19 @@
                 display: flex;
             }
             tr{
-                height: 50px;
+                height: 100px;
             }
-            td{
+            td, th{
                 text-align: center;
                 width: 170px;
                 border:1px solid;
-            }
-            th{
-                text-align: center;
-                width: 170px;
-                border:1px solid;
-                background-color: #99ccff;
             }
             .header{
-                height: 5%;
+                height: 10%;
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
-                margin-right: 10px
+
             }
             p{
                 padding: 0;
@@ -65,6 +59,7 @@
                 flex-direction: column;
                 padding: 24px;
                 border-right: 1px solid #dadce0;
+                height: 870px;
             }
             .side-nav {
                 grid-column: 1 / 2;
@@ -74,7 +69,6 @@
                 flex-direction: column;
                 padding: 24px;
                 border-right: 1px solid #dadce0;
-                height: 870px;
             }
 
             li {
@@ -159,14 +153,38 @@
             .title{
                 text-align: center;
             }
-            .return-button a{
-                background-color: #5cb85c;
-                text-decoration: none;
-                color:white;
-                padding: 6px;
-                margin-left: 3px;
+            .header{
+                height: 10%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-right: 10px
             }
-
+            .no{
+                width: 50px;
+            }
+            .group{
+                width: 600px;
+            }
+            .group1{
+                width: 600px;
+                text-align: left;
+            }
+            .group1 a{
+                text-decoration: none;
+                padding-left:10px;
+            }
+            tr{
+                height:50px;
+            }
+            th{
+                background-color: #4d90fe;
+                text-align: center;
+            }
+            .table{
+                display: flex;
+                justify-content: center;
+            }
         </style>
     </head>
     <body>
@@ -178,11 +196,15 @@
             <ul class="nav-links">
                 <li>
 
-                    <a href="#">Weekly Timetable</a>
+                    <a href="weeklyTimeTable?Date=${requestScope.currentdate}">Weekly Timetable</a>
                 </li>
                 <li>
 
-                    <a href="list">View Student Attendance Status</a>
+                    <a href="list">Attendance Report</a>
+                </li>
+                <li>
+
+                    <a href="..\logout">Logout</a>
                 </li>
 
             </ul>
@@ -196,7 +218,7 @@
 
                 <div class="user-menu">
                     <div class="dropdown">
-                        <button class="dropbtn">${requestScope.userid}</button>
+                        <button class="dropbtn">${requestScope.username}</button>
                         <div class="dropdown-content">
                             <a href="#">Setting</a>
                             <a href="../logout">Logout</a>
@@ -206,14 +228,22 @@
             </div>
 
             <div class="schedule">
-                <div class="return-button">
-                    <a href="list">Back To Previous Page</a>
+                <div class="title"><h1>Choose Group</h1></div>
+                <div class="table">
+                    <table>
+                        <thead>
+                        <th class="no">NO</th>
+                        <th class="group">Group</th>
+                        </thead>
+
+                        <c:forEach items="${requestScope.groups}" var="g" varStatus="index">
+                            <tr>
+                                <td class="no">${index.index+1}</td>
+                                <td class="group1"><a href="/Project/student/status?studentid=${requestScope.userid}&courseid=${g.course.id}">${g.course.id} - ${g.course.name} - ${g.name}</a></td>
+                            </tr>
+                        </c:forEach>
+                    </table>
                 </div>
-                <ul>
-                    <c:forEach items="${requestScope.groups}" var="g">
-                        <li><a href="/Project/student/status?studentid=${requestScope.userid}&courseid=${g.course.id}">${g.course.id} - ${g.course.name} - ${g.name}</a></li>
-                    </c:forEach>  
-                </ul>
 
 
             </div>

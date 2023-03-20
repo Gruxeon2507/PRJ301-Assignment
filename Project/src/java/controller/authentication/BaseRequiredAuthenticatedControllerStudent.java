@@ -50,7 +50,7 @@ public abstract class BaseRequiredAuthenticatedControllerStudent extends HttpSer
         }
         else
         {
-            response.sendRedirect("../../../../Project/view/authentication/Login.jsp");
+            response.sendRedirect("../../../../Project/view/authentication/AccessDenied.jsp");
         }
     }
     protected abstract void doGet(HttpServletRequest request, HttpServletResponse response,User user)
@@ -83,7 +83,7 @@ public abstract class BaseRequiredAuthenticatedControllerStudent extends HttpSer
         }
         else
         {
-            response.sendRedirect("../../../../Project/view/authentication/Login.jsp");
+            response.sendRedirect("../../../../Project/view/authentication/AccessDenied.jsp");
         }
     }
 

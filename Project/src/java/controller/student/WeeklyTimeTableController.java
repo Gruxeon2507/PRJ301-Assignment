@@ -19,14 +19,15 @@ import model.TimeSlot;
 import model.User;
 import util.MondayAndSundayOfWeek;
 import controller.authentication.BaseRequiredAuthenticatedControllerStudent;
-        /**
+
+/**
  *
  * @author Nguyen Hoang Minh
  */
 public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControllerStudent {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response,User user)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response, User user)
             throws ServletException, IOException {
         String studentId = user.getUsername();
         String raw_date = request.getParameter("Date");
@@ -43,14 +44,19 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         request.setAttribute("sessions", sessions);
         request.setAttribute("days", days);
         request.setAttribute("userid", user.getDisplayname());
+        java.sql.Date currentDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+        request.setAttribute("userid", user.getDisplayname());
+        request.setAttribute("currentdate", currentDate);
         request.getRequestDispatcher("../view/student/WeeklyTimeTable.jsp").forward(request, response);
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response,User user) throws ServletException, IOException {
-        String studentId = request.getParameter("studentId");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
+        String studentId = user.getUsername();
         String raw_date = request.getParameter("Date");
-        
+                        java.sql.Date currentDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+        request.setAttribute("userid", user.getDisplayname());
+        request.setAttribute("currentdate", currentDate);
         SessionDBContext db = new SessionDBContext();
         TimeSlotDBContext db2 = new TimeSlotDBContext();
         Date monday = MondayAndSundayOfWeek.getMonday(raw_date);
@@ -58,7 +64,7 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         ArrayList<Day> days = MondayAndSundayOfWeek.getWholeWeekFromDate(monday);
         ArrayList<TimeSlot> timeslots = db2.all();
         ArrayList<Session> sessions = db.getStudentSession(studentId, monday, sunday);
-        
+
         request.setAttribute("userid", user.getDisplayname());
         request.setAttribute("studentId", studentId);
         request.setAttribute("date", raw_date);

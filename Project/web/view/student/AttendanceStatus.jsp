@@ -177,11 +177,15 @@
             <ul class="nav-links">
                 <li>
 
-                    <a href="#">Weekly Timetable</a>
+                    <a href="weeklyTimeTable?Date=${requestScope.currentdate}">Weekly Timetable</a>
                 </li>
                 <li>
 
-                    <a href="list">View Student Attendance Status</a>
+                    <a href="list">Attendance Report</a>
+                </li>
+                <li>
+
+                    <a href="..\logout">Logout</a>
                 </li>
 
             </ul>

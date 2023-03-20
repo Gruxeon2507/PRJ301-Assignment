@@ -40,6 +40,10 @@
         <servlet-name>StudentStatusControllerServlet</servlet-name>
         <servlet-class>controller.student.StatusController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewAttendanceServlet</servlet-name>
+        <servlet-class>controller.instructor.ViewAttendanceController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WeeklyTimeTableDisplayServlet</servlet-name>
         <url-pattern>/instructor/weeklyTimeTable</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>StudentStatusControllerServlet</servlet-name>
         <url-pattern>/student/status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewAttendanceServlet</servlet-name>
+        <url-pattern>/instructor/viewAttendance</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

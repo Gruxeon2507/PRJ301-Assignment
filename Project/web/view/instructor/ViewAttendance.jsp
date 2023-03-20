@@ -1,6 +1,6 @@
 <%-- 
-    Document   : TakeAttendance
-    Created on : Mar 10, 2023, 11:29:45 AM
+    Document   : UpdateAttendance
+    Created on : Mar 12, 2023, 3:54:08 PM
     Author     : Nguyen Hoang Minh
 --%>
 
@@ -16,6 +16,11 @@
                 width: 100px;
                 border-radius: 10px;
             }
+
+            img{
+                width: 100px;
+                border-radius: 10px;
+            }
             table{
                 text-align: center;
                 border-collapse: collapse;
@@ -26,7 +31,7 @@
                 text-align: center;
 
             }
-
+            
             .main_content{
                 width: 80%;
                 display: flex;
@@ -39,7 +44,7 @@
                 height: 100px;
             }
             td{
-/*                text-align: center;*/
+                /*                text-align: center;*/
                 width: 250px;
                 border:1px solid;
             }
@@ -166,8 +171,7 @@
                 justify-content: flex-end;
                 align-items: center;
                 margin-right: 10px
-            }
-            .title{
+            }.title{
                 text-align: center;
             }
         </style>
@@ -178,18 +182,15 @@
                 <img src="https://hcmuni.fpt.edu.vn/Data/Sites/1/skins/default/img/og-image.png" alt="">
             </div>
 
-            
         </div>
         <div class="main_content">
-            <div class="header">
-                
-            </div>
+            
             <div class="title">
-                <h1>Attendance for ${requestScope.groupName} ${requestScope.coursename}</h1>
+                <h1>View Attendance for ${requestScope.groupname} ${requestScope.coursename}</h1>
             </div>
+
             <div class="schedule">
-                <form method="POST" action="takeAttendance">
-                    <table >
+                    <table>
                         <thead>
                         <td>Student Code</td>
                         <td>Image</td>
@@ -197,62 +198,31 @@
                         <td>Attendance Status</td>
                         <td>Note</td>
                         </thead>
-                        <c:forEach items="${requestScope.students}" var="s" varStatus="i">
+                        <c:forEach items="${requestScope.attends}" var="a" varStatus="i">
                             <tr>
-                                <td>${s.id}
-                                    <input type="text" hidden name="name${i.index}" value="${s.id}"></td>
-                                <td><img src="${s.image}" class="image" onerror="this.src='https://media.istockphoto.com/id/1214428300/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=vftMdLhldDx9houN4V-g3C9k0xl6YeBcoB_Rk6Trce0=';"></td>
-                                <td>${s.name}</td>
+                                <td>${a.student.id}
+                                    <input type="text" hidden name="name${i.index}" value="${a.student.id}"></td>
+                                <td><img src="${a.student.image}" class="image" onerror="this.src='https://media.istockphoto.com/id/1214428300/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=vftMdLhldDx9houN4V-g3C9k0xl6YeBcoB_Rk6Trce0=';"></td>
+                                <td>${a.student.name}</td>
                                 <td>
-                                    <input type="radio" name="status${i.index}" value="true" >presented
-                                    <input type="radio" name="status${i.index}" value="false" checked>absent
-                                </td>
-                                <td>
-                                    <input type="input" name="comment${i.index}">
+                                    <input type="radio" name="status${i.index}" value="true" 
+                                           <c:if test="${a.status}">checked</c:if>
+                                               >presented
+                                           <input type="radio" name="status${i.index}" value="false" 
+                                           <c:if test="${!a.status}">checked</c:if>
+                                               >absent
+                                    </td>
+                                    <td>
+                                        <input type="input" name="comment${i.index}" value="${a.comment}">
                                 </td>
                             </tr>
                         </c:forEach>
 
-
                     </table>
                     <input type="text" hidden value="${requestScope.sessionid}" name ="sessionid">
-                    <div class="save-button">
-                        <input type="submit" value="save" >
-                    </div>
-                    
-                </form>
             </div>
         </div>
 
 
-
-        <!--        <table>
-                    <thead>
-                    <td>Student Code</td>
-                    <td>Image</td>
-                    <td>Name</td>
-                    <td>Attendance Status</td>
-                    <td>Note</td>
-                </thead>
-        <c:forEach items="${requestScope.students}" var="s" varStatus="i">
-            <tr>
-                <td>${s.id}
-                    <input type="text" hidden name="name${i.index}" value="${s.id}"></td>
-                <td><img src="${s.image}" class="image" onerror="this.src='https://media.istockphoto.com/id/1214428300/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=vftMdLhldDx9houN4V-g3C9k0xl6YeBcoB_Rk6Trce0=';"></td>
-                <td>${s.name}</td>
-                <td>
-                    <input type="radio" name="status${i.index}" value="true" checked>presented
-                    <input type="radio" name="status${i.index}" value="false" >absent
-                </td>
-                <td>
-                    <input type="input" name="comment${i.index}">
-                </td>
-            </tr>
-        </c:forEach>
-
-    </table>
-    <input type="text" hidden value="${requestScope.sessionid}" name ="sessionid">
-    <input type="submit" value="save">
-</form>-->
     </body>
 </html>
