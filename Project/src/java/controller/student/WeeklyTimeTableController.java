@@ -71,6 +71,7 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         request.setAttribute("timeslots", timeslots);
         request.setAttribute("sessions", sessions);
         request.setAttribute("days", days);
+        
         request.getRequestDispatcher("../view/student/WeeklyTimeTable.jsp").forward(request, response);
     }
 

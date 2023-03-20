@@ -21,33 +21,37 @@ import model.User;
  *
  * @author Nguyen Hoang Minh
  */
-public class StatusController extends BaseRequiredAuthenticatedControllerStudent{
+public class StatusController extends BaseRequiredAuthenticatedControllerStudent {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {
-        
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException, IOException {
+
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException, IOException {
         String studentId = req.getParameter("studentid");
         String courseId = req.getParameter("courseid");
         SessionDBContext sessionDb = new SessionDBContext();
         AttendDBContext attendDb = new AttendDBContext();
         ArrayList<Session> sessions = sessionDb.getStudentSessionByStudentId(studentId, courseId);
         ArrayList<Attend> attends = attendDb.getStudentAttendedSessions(studentId, courseId);
-        
+
         req.setAttribute("sessions", sessions);
         req.setAttribute("attends", attends);
-        int absentcount=0;
+        int absentcount = 0;
         for (Attend attend : attends) {
-            if(!attend.isStatus()) absentcount++;
+            if (!attend.isStatus()) {
+                absentcount++;
+            }
         }
+        java.sql.Date currentDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+        req.setAttribute("currentdate", currentDate);
         req.setAttribute("displayname", user.getDisplayname());
         req.setAttribute("courseid", courseId);
         req.setAttribute("userid", user.getDisplayname());
-        req.setAttribute("absent", (float)absentcount/sessions.size()*100);
+        req.setAttribute("absent", (float) absentcount / sessions.size() * 100);
         req.getRequestDispatcher("../view/student/AttendanceStatus.jsp").forward(req, resp);
     }
-    
+
 }

@@ -70,7 +70,7 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         ArrayList<Day> days = MondayAndSundayOfWeek.getWholeWeekFromDate(monday);
         ArrayList<TimeSlot> timeslots = db2.all();
         ArrayList<Session> sessions = db.getStatusSession(instructorId,monday,sunday);
-        java.sql.Date currentDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+
 //        response.getWriter().println(days.size()+" 2 3 4 5 ");
 //        for(Day d: days){
 //            response.getWriter().println(d.getDate()+" "+d.getDateCount()+" "+currentDate);
@@ -83,6 +83,7 @@ public class WeeklyTimeTableController extends BaseRequiredAuthenticatedControll
         request.setAttribute("timeslots", timeslots);
         request.setAttribute("sessions", sessions);
         request.setAttribute("days", days);
+                java.sql.Date currentDate = java.sql.Date.valueOf(java.time.LocalDate.now());
         request.setAttribute("userid", user.getDisplayname());
         request.setAttribute("currentdate", currentDate);
         request.getRequestDispatcher("../view/instructor/WeeklyTimeTable.jsp").forward(request, response);

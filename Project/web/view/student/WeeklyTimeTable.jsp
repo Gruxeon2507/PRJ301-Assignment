@@ -278,7 +278,6 @@
                             <c:forEach items="${requestScope.days}" var="d">
                                 <td>
 
-
                                     <c:forEach items="${requestScope.sessions}" var="s">
                                         <c:if test="${s.date eq d.date}">
                                             <c:if test="${s.slot.slotNumber eq t.slotNumber}">

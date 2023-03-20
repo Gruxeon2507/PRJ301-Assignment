@@ -268,7 +268,7 @@ public class SessionDBContext extends DBContext<Session> {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            String sql = "Select s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status]\n"
+            String sql = "Select distinct s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status]\n"
                     + "From [Session] s inner join Instructor i on s.lecturerId=i.instructorId\n"
                     + "inner join TimeSlot t on s.slotId=t.slotId\n"
                     + "inner join Room r on s.roomId=r.roomId\n"
@@ -310,7 +310,8 @@ public class SessionDBContext extends DBContext<Session> {
 
                 Room r = new Room();
                 r.setId(rs.getString("roomId"));
-
+                
+                s.setStatus(rs.getBoolean("status"));
                 s.setGroup(g);
                 s.setInstructor(i);
                 s.setSlot(t);

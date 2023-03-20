@@ -34,6 +34,7 @@ public class ClassListController extends BaseRequiredAuthenticatedControllerInst
         req.setAttribute("username", user.getUsername());
         req.setAttribute("groups", groups);
         req.setAttribute("userid", user.getDisplayname());
+        
         req.getRequestDispatcher("../view/instructor/ClassList.jsp").forward(req, resp);
     }
     
