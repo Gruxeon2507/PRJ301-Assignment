@@ -23,7 +23,7 @@ inner join [Group] g on s.groupId=g.groupId
 inner join Course c on g.courseId=c.courseId
 where i.instructorId='sonnt5' and s.[date] = '2023-03-02'
 
-Select s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status]
+Select distinct s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status]
 From [Session] s inner join Instructor i on s.lecturerId=i.instructorId
 inner join TimeSlot t on s.slotId=t.slotId
 inner join Room r on s.roomId=r.roomId
@@ -32,7 +32,7 @@ inner join Course c on g.courseId=c.courseId
 inner join Participate p on p.groupId=g.groupId
 inner join Student su on p.studentId=su.studentId
 left join Attend a on a.sessionId=s.sessionId
-where su.studentId='HE170996' and s.[date] between '2023-03-06' and '2023-03-12'
+where su.studentId='HE170996' and s.[date] between '2023-03-20' and '2023-03-28'
 
 Select distinct s.sessionId,s.sessionName,s.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId,iif(a.[status] IS NULL ,'false','true') as [status]
 From [Session] s inner join Instructor i on s.lecturerId=i.instructorId
@@ -72,7 +72,7 @@ inner join Room r on se.roomId=r.roomId
 inner join [Group] g on se.groupId=g.groupId
 inner join Course c on g.courseId=c.courseId
 inner join Student su on a.studentId=su.studentId
-where groupName='SE1723' and c.courseId ='PRJ301' and se.lecturerId='sonnt5' and  a.status=0
+where groupName='SE1723' and c.courseId ='MAS291' and se.lecturerId='khaidq6' and  a.status=0
 Group by a.sessionId,a.studentId,a.[status],a.recordTime,a.comment,s.studentName,s.studentImage,se.sessionName,se.[date],g.groupId,g.groupName,c.courseId,c.courseName,i.instructorId,i.instructorName,t.slotId,t.slotNumber,t.startTime,t.endTime,r.roomId
 --Upadte Attendane
 Update Attend set [status] = 1 ,comment = 'hihi', recordTime = '2023-01-07 15:40:00.000' where studentId = 'HE130464' and sessionId = '109'Update Attend set [status] = 1 ,comment = 'hihi', recordTime = '2023-01-07 15:40:00.000' where studentId = 'HE130464' and sessionId = '110'

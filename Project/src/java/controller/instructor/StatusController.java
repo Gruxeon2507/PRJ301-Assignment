@@ -36,7 +36,7 @@ public class StatusController extends BaseRequiredAuthenticatedControllerInstruc
         String groupName = req.getParameter("groupName");
         String groupId = req.getParameter("groupId");
         String courseId = req.getParameter("courseId");
-        String instructorId = "sonnt5";
+        String instructorId = ((User)req.getSession().getAttribute("user")).getUsername();
         AttendDBContext attendDb = new AttendDBContext();
         AttendDBContext attendDb1 = new AttendDBContext();
         SessionDBContext sessionDb = new SessionDBContext();
